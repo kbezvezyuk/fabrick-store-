@@ -4,33 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fabrick Store</title>
-
-<!-- Fabrick Web Component Script (Sandbox) — per PDF integration guide -->
 <script src="https://sandbox-web.axerve.com/orchestra/checkout/assets/elements/fbk-elements.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --primary: #0047AB;
-  --primary-dark: #003380;
-  --primary-light: #1A5FC8;
-  --secondary: #00A3E0;
-  --bg: #F5F5F5;
-  --bg-card: #FFFFFF;
-  --text: #1A1A1A;
-  --text-muted: #6B7280;
-  --text-light: #9CA3AF;
-  --border: #E5E7EB;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.15);
-  --radius: 12px;
-  --transition: 0.2s ease;
-}
+:root{--primary:#0047AB;--primary-dark:#003380;--primary-light:#1A5FC8;--secondary:#00A3E0;--bg:#F5F5F5;--bg-card:#FFFFFF;--text:#1A1A1A;--text-muted:#6B7280;--text-light:#9CA3AF;--border:#E5E7EB;--shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 16px rgba(0,0,0,0.10);--shadow-lg:0 16px 48px rgba(0,0,0,0.15);--radius:12px;--transition:0.2s ease}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-
-/* ── NAVBAR ── */
 .navbar{background:#fff;border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
 .navbar-inner{max-width:1200px;margin:0 auto;width:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
 .logo{display:flex;align-items:center;text-decoration:none}
@@ -39,33 +18,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .cart-btn:hover{background:var(--primary-dark)}
 .cart-badge{position:absolute;top:-5px;right:-5px;background:#EF4444;color:white;font-size:0.6rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;opacity:0;transform:scale(0);transition:var(--transition)}
 .cart-badge.visible{opacity:1;transform:scale(1)}
-
-/* ── PAGE HEADER ── */
 .page-header{max-width:1200px;margin:0 auto;padding:28px 24px 0;display:flex;align-items:center;justify-content:space-between}
 .page-header h1{font-size:1.3rem;font-weight:600;color:var(--text)}
 .page-header span{font-size:0.85rem;color:var(--text-muted)}
-
-/* ── PRODUCTS GRID ── */
 .main{max-width:1200px;margin:0 auto;padding:20px 24px 80px}
 .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-
-/* ── PRODUCT CARD — clean, minimal like mystoredemo ── */
 .product-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:var(--transition);cursor:pointer;display:flex;flex-direction:column}
 .product-card:hover{box-shadow:var(--shadow-md);border-color:#D1D5DB;transform:translateY(-2px)}
-.product-img{position:relative;background:#F9FAFB;aspect-ratio:1/1;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.product-img img{width:100%;height:100%;object-fit:contain;padding:16px;transition:transform .3s ease}
+.product-img{background:#F9FAFB;aspect-ratio:1/1;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.product-img img{width:100%;height:100%;object-fit:contain;padding:16px;transition:transform .3s ease;display:block}
 .product-card:hover .product-img img{transform:scale(1.05)}
-.product-img .fallback-emoji{font-size:4rem;display:none}
 .product-body{padding:12px 14px 14px;flex:1;display:flex;flex-direction:column;gap:4px}
 .product-name{font-size:0.88rem;font-weight:600;color:var(--text);line-height:1.3}
 .product-desc{font-size:0.75rem;color:var(--text-muted);line-height:1.4;flex:1}
 .product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
 .product-price{font-size:1rem;font-weight:700;color:var(--text)}
-.add-to-cart{background:var(--primary);color:white;border:none;cursor:pointer;padding:7px 14px;border-radius:7px;font-size:0.75rem;font-weight:600;display:flex;align-items:center;gap:5px;transition:var(--transition);font-family:inherit}
+.add-to-cart{background:var(--primary);color:white;border:none;cursor:pointer;padding:7px 14px;border-radius:7px;font-size:0.75rem;font-weight:600;transition:var(--transition);font-family:inherit}
 .add-to-cart:hover{background:var(--primary-dark)}
 .add-to-cart.added{background:#16A34A}
-
-/* ── CART SIDEBAR ── */
 .cart-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.4);opacity:0;pointer-events:none;transition:opacity .25s ease}
 .cart-overlay.open{opacity:1;pointer-events:all}
 .cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:95vw;z-index:201;background:white;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
@@ -81,7 +51,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .cart-empty p{font-size:0.85rem}
 .cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .cart-item:last-child{border-bottom:none}
-.cart-item-img{width:52px;height:52px;border-radius:8px;object-fit:contain;padding:4px;background:#F9FAFB;border:1px solid var(--border);flex-shrink:0}
+.cart-item-img{width:52px;height:52px;border-radius:8px;object-fit:contain;padding:4px;background:#F9FAFB;border:1px solid var(--border);flex-shrink:0;display:block}
 .cart-item-info{flex:1;min-width:0}
 .cart-item-name{font-size:0.83rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cart-item-price{font-size:0.78rem;color:var(--text-muted);margin-top:2px}
@@ -100,8 +70,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .checkout-btn:disabled{opacity:.45;cursor:not-allowed}
 .continue-shopping{width:100%;background:none;border:1px solid var(--border);cursor:pointer;padding:9px;border-radius:9px;font-size:0.82rem;color:var(--text-muted);margin-top:8px;transition:var(--transition);font-family:inherit}
 .continue-shopping:hover{border-color:var(--primary);color:var(--primary)}
-
-/* ── CHECKOUT PAGE ── */
 #checkout-page{display:none;min-height:100vh;background:var(--bg)}
 #checkout-page.active{display:block}
 #shop-page.hidden{display:none}
@@ -120,27 +88,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .init-status{margin-top:10px;padding:7px 12px;border-radius:7px;font-size:0.75rem;display:flex;align-items:center;gap:6px}
 .init-status.loading{background:#EFF6FF;color:var(--primary)}
 .init-status.success{background:#F0FDF4;color:#16A34A}
+.init-status.demo{background:#FFF7ED;color:#C2410C}
 .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .init-status.loading .status-dot{background:var(--primary);animation:pulse 1.2s infinite}
 .init-status.success .status-dot{background:#16A34A}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .init-status.demo .status-dot{background:#F97316}
-
-/* ── CORS NOTICE ── */
-.cors-notice{background:#F8FAFF;border:1px solid #DBEAFE;border-radius:10px;padding:18px 20px;margin-bottom:16px}
-.cors-icon{font-size:1.5rem;margin-bottom:8px}
-.cors-title{font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:6px}
-.cors-body{font-size:0.8rem;color:var(--text-muted);line-height:1.6;margin-bottom:10px}
-.cors-body code{background:#EFF6FF;color:var(--primary);padding:1px 5px;border-radius:4px;font-size:0.78rem}
-.cors-details{font-size:0.78rem;color:var(--text-muted)}
-.cors-details summary{cursor:pointer;color:var(--primary);font-weight:500;padding:4px 0;user-select:none}
-.cors-details summary:hover{text-decoration:underline}
-.cors-details ol{padding-left:18px;margin:10px 0;line-height:1.8}
-.cors-details a{color:var(--primary)}
-.cors-details pre{background:#0F172A;color:#E2E8F0;border-radius:8px;padding:14px;font-size:0.72rem;line-height:1.6;overflow-x:auto;margin:8px 0;white-space:pre-wrap;word-break:break-word}
-.cors-details code{background:#EFF6FF;color:var(--primary);padding:1px 5px;border-radius:3px}
-
-/* ── ORDER SUMMARY ── */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .order-summary{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;position:sticky;top:76px}
 .order-summary-header{padding:16px 18px;border-bottom:1px solid var(--border);font-size:0.9rem;font-weight:600}
 .order-items{padding:14px 18px}
@@ -154,8 +107,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .order-line{display:flex;justify-content:space-between;font-size:0.8rem;color:var(--text-muted);padding:3px 0}
 .order-line.total{font-size:1rem;font-weight:700;color:var(--text);padding-top:9px;margin-top:5px;border-top:1px solid var(--border)}
 .secure-badge{display:flex;align-items:center;justify-content:center;gap:5px;padding:11px 18px;font-size:0.72rem;color:var(--text-muted);border-top:1px solid var(--border)}
-
-/* ── SUCCESS MODAL ── */
 .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
 .modal-overlay.open{opacity:1;pointer-events:all}
 .modal{background:white;border-radius:16px;padding:44px 36px;max-width:420px;width:90%;text-align:center;transform:scale(.9) translateY(16px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
@@ -166,13 +117,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .modal-txid{background:var(--bg);border-radius:7px;padding:9px 14px;margin:14px 0;font-family:monospace;font-size:0.82rem;color:var(--primary);font-weight:600;word-break:break-all}
 .modal-btn{background:var(--primary);color:white;border:none;cursor:pointer;padding:11px 28px;border-radius:9px;font-size:0.88rem;font-weight:600;margin-top:6px;transition:var(--transition);font-family:inherit}
 .modal-btn:hover{background:var(--primary-dark)}
-
 .error-toast{position:fixed;bottom:22px;right:22px;z-index:400;background:#DC2626;color:white;border-radius:9px;padding:12px 18px;max-width:340px;transform:translateY(70px);opacity:0;transition:all .3s ease}
 .error-toast.show{transform:translateY(0);opacity:1}
 .error-toast-title{font-weight:700;font-size:0.85rem;margin-bottom:2px}
 .error-toast-msg{font-size:0.78rem;opacity:.85}
-
-/* ── FOOTER ── */
 .site-footer{background:#fff;border-top:1px solid var(--border);padding:20px 0;margin-top:auto}
 .footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .footer-left{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-muted)}
@@ -184,11 +132,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .country-select:hover{border-color:var(--primary)}
 .country-select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,71,171,0.1)}
 .select-arrow{position:absolute;right:10px;pointer-events:none;color:var(--text-muted);font-size:0.7rem}
-.currency-chip{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:0.78rem;font-weight:600;color:var(--primary);transition:var(--transition)}
-.currency-chip-symbol{font-size:1rem;font-weight:700}
+.currency-chip{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:0.78rem;font-weight:600;color:var(--primary)}
 .currency-changed{animation:chipPop .35s ease}
 @keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
-
 @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:800px){.products-grid{grid-template-columns:repeat(2,1fr)}.checkout-layout{grid-template-columns:1fr}.order-summary{position:static;order:-1}.footer-inner{flex-direction:column;align-items:flex-start;gap:12px}}
 @media(max-width:480px){.products-grid{grid-template-columns:repeat(2,1fr)}}
@@ -196,12 +142,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </head>
 <body>
 
-<!-- ═══ SHOP PAGE ═══ -->
 <div id="shop-page">
   <nav class="navbar">
     <div class="navbar-inner">
       <a class="logo" href="#">
-        <!-- Fabrick logo exact replica -->
         <svg height="24" viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <text y="20" font-family="'Inter','Arial Black',sans-serif" font-weight="800" font-size="22" fill="#0047AB" letter-spacing="-0.8">fabrick</text>
           <circle cx="45" cy="23.2" r="2.2" fill="#0047AB"/>
@@ -215,12 +159,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       </div>
     </div>
   </nav>
-
   <div class="page-header">
     <h1>All Products</h1>
-    <span id="product-count">9 products</span>
+    <span>9 products</span>
   </div>
-
   <main class="main">
     <div class="products-grid" id="products-grid"></div>
   </main>
@@ -278,13 +220,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
           <span class="select-arrow">▼</span>
         </div>
         <div class="currency-chip" id="currency-chip">
-          <span class="currency-chip-symbol" id="currency-symbol">€</span>
+          <span id="currency-symbol">€</span>
           <span id="currency-code">EUR</span>
         </div>
       </div>
     </div>
   </footer>
 </div>
+
 <div id="checkout-page">
   <nav class="navbar">
     <div class="navbar-inner">
@@ -298,16 +241,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </nav>
   <div class="checkout-layout">
     <div>
-      <button class="breadcrumb-back" onclick="goBackToShop()">
-        ← Continue Shopping
-      </button>
+      <button class="breadcrumb-back" onclick="goBackToShop()">← Continue Shopping</button>
       <div class="checkout-card">
         <div class="checkout-card-header">
           <div class="checkout-card-icon">💳</div>
           <div class="checkout-card-title">Secure Payment</div>
         </div>
         <div class="checkout-card-body">
-          <!-- FABRICK WEB COMPONENT — injected with payment-id + payment-token -->
           <div class="payment-component-wrap" id="payment-component-wrap">
             <div class="payment-loading" id="payment-loading">
               <div class="spinner"></div>
@@ -336,7 +276,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   </div>
 </div>
 
-<!-- ═══ CART SIDEBAR ═══ -->
 <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
@@ -354,14 +293,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
       <span class="cart-total-label">Total</span>
       <span class="cart-total-amount" id="cart-total">€0.00</span>
     </div>
-    <button class="checkout-btn" id="proceed-checkout-btn" onclick="goToCheckout()" disabled>
-      Proceed to Checkout →
-    </button>
+    <button class="checkout-btn" id="proceed-checkout-btn" onclick="goToCheckout()" disabled>Proceed to Checkout →</button>
     <button class="continue-shopping" onclick="closeCart()">← Continue Shopping</button>
   </div>
 </div>
 
-<!-- ═══ SUCCESS MODAL ═══ -->
 <div class="modal-overlay" id="success-modal">
   <div class="modal">
     <div class="modal-icon">✓</div>
@@ -378,86 +314,55 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 </div>
 
 <script>
-/* ══════════════════════════════════════════════════════════
-   CURRENCY CONFIG
-   Базовые цены в EUR. При смене страны пересчитываем
-   через фиксированный rate (для демо).
-══════════════════════════════════════════════════════════ */
-const CURRENCIES = {
-  EU: { code: 'EUR', symbol: '€',  flag: '🇪🇺', rate: 1.00,   decimals: 2 },
-  IT: { code: 'EUR', symbol: '€',  flag: '🇮🇹', rate: 1.00,   decimals: 2 },
-  DE: { code: 'EUR', symbol: '€',  flag: '🇩🇪', rate: 1.00,   decimals: 2 },
-  FR: { code: 'EUR', symbol: '€',  flag: '🇫🇷', rate: 1.00,   decimals: 2 },
-  ES: { code: 'EUR', symbol: '€',  flag: '🇪🇸', rate: 1.00,   decimals: 2 },
-  PL: { code: 'PLN', symbol: 'zł', flag: '🇵🇱', rate: 4.27,   decimals: 2 },
-  CZ: { code: 'CZK', symbol: 'Kč', flag: '🇨🇿', rate: 25.10,  decimals: 0 },
-  HU: { code: 'HUF', symbol: 'Ft', flag: '🇭🇺', rate: 390.0,  decimals: 0 },
-  RO: { code: 'RON', symbol: 'lei',flag: '🇷🇴', rate: 4.97,   decimals: 2 },
-  SE: { code: 'SEK', symbol: 'kr', flag: '🇸🇪', rate: 11.62,  decimals: 2 },
-  DK: { code: 'DKK', symbol: 'kr', flag: '🇩🇰', rate: 7.46,   decimals: 2 },
-  NO: { code: 'NOK', symbol: 'kr', flag: '🇳🇴', rate: 11.75,  decimals: 2 },
-  CH: { code: 'CHF', symbol: 'Fr', flag: '🇨🇭', rate: 0.96,   decimals: 2 },
-  GB: { code: 'GBP', symbol: '£',  flag: '🇬🇧', rate: 0.86,   decimals: 2 },
-  US: { code: 'USD', symbol: '$',  flag: '🇺🇸', rate: 1.08,   decimals: 2 },
-  CA: { code: 'CAD', symbol: 'C$', flag: '🇨🇦', rate: 1.47,   decimals: 2 },
-  MX: { code: 'MXN', symbol: '$',  flag: '🇲🇽', rate: 19.80,  decimals: 2 },
-  BR: { code: 'BRL', symbol: 'R$', flag: '🇧🇷', rate: 5.60,   decimals: 2 },
-  JP: { code: 'JPY', symbol: '¥',  flag: '🇯🇵', rate: 161.0,  decimals: 0 },
-  AU: { code: 'AUD', symbol: 'A$', flag: '🇦🇺', rate: 1.64,   decimals: 2 },
-  IN: { code: 'INR', symbol: '₹',  flag: '🇮🇳', rate: 90.20,  decimals: 0 },
-  CN: { code: 'CNY', symbol: '¥',  flag: '🇨🇳', rate: 7.82,   decimals: 2 },
-  KR: { code: 'KRW', symbol: '₩',  flag: '🇰🇷', rate: 1470.0, decimals: 0 },
-  SG: { code: 'SGD', symbol: 'S$', flag: '🇸🇬', rate: 1.45,   decimals: 2 },
-  AE: { code: 'AED', symbol: 'د.إ',flag: '🇦🇪', rate: 3.97,   decimals: 2 },
-  SA: { code: 'SAR', symbol: '﷼',  flag: '🇸🇦', rate: 4.05,   decimals: 2 },
-  ZA: { code: 'ZAR', symbol: 'R',  flag: '🇿🇦', rate: 20.10,  decimals: 2 },
-  EG: { code: 'EGP', symbol: '£',  flag: '🇪🇬', rate: 52.50,  decimals: 2 },
+const CURRENCIES={
+  EU:{code:'EUR',symbol:'€',flag:'🇪🇺',rate:1.00,decimals:2},
+  IT:{code:'EUR',symbol:'€',flag:'🇮🇹',rate:1.00,decimals:2},
+  DE:{code:'EUR',symbol:'€',flag:'🇩🇪',rate:1.00,decimals:2},
+  FR:{code:'EUR',symbol:'€',flag:'🇫🇷',rate:1.00,decimals:2},
+  ES:{code:'EUR',symbol:'€',flag:'🇪🇸',rate:1.00,decimals:2},
+  PL:{code:'PLN',symbol:'zł',flag:'🇵🇱',rate:4.27,decimals:2},
+  CZ:{code:'CZK',symbol:'Kč',flag:'🇨🇿',rate:25.10,decimals:0},
+  HU:{code:'HUF',symbol:'Ft',flag:'🇭🇺',rate:390.0,decimals:0},
+  RO:{code:'RON',symbol:'lei',flag:'🇷🇴',rate:4.97,decimals:2},
+  SE:{code:'SEK',symbol:'kr',flag:'🇸🇪',rate:11.62,decimals:2},
+  DK:{code:'DKK',symbol:'kr',flag:'🇩🇰',rate:7.46,decimals:2},
+  NO:{code:'NOK',symbol:'kr',flag:'🇳🇴',rate:11.75,decimals:2},
+  CH:{code:'CHF',symbol:'Fr',flag:'🇨🇭',rate:0.96,decimals:2},
+  GB:{code:'GBP',symbol:'£',flag:'🇬🇧',rate:0.86,decimals:2},
+  US:{code:'USD',symbol:'$',flag:'🇺🇸',rate:1.08,decimals:2},
+  CA:{code:'CAD',symbol:'C$',flag:'🇨🇦',rate:1.47,decimals:2},
+  MX:{code:'MXN',symbol:'$',flag:'🇲🇽',rate:19.80,decimals:2},
+  BR:{code:'BRL',symbol:'R$',flag:'🇧🇷',rate:5.60,decimals:2},
+  JP:{code:'JPY',symbol:'¥',flag:'🇯🇵',rate:161.0,decimals:0},
+  AU:{code:'AUD',symbol:'A$',flag:'🇦🇺',rate:1.64,decimals:2},
+  IN:{code:'INR',symbol:'₹',flag:'🇮🇳',rate:90.20,decimals:0},
+  CN:{code:'CNY',symbol:'¥',flag:'🇨🇳',rate:7.82,decimals:2},
+  KR:{code:'KRW',symbol:'₩',flag:'🇰🇷',rate:1470.0,decimals:0},
+  SG:{code:'SGD',symbol:'S$',flag:'🇸🇬',rate:1.45,decimals:2},
+  AE:{code:'AED',symbol:'د.إ',flag:'🇦🇪',rate:3.97,decimals:2},
+  SA:{code:'SAR',symbol:'﷼',flag:'🇸🇦',rate:4.05,decimals:2},
+  ZA:{code:'ZAR',symbol:'R',flag:'🇿🇦',rate:20.10,decimals:2},
+  EG:{code:'EGP',symbol:'£',flag:'🇪🇬',rate:52.50,decimals:2}
 };
 
-let currentCountry = 'EU';
-let currentCurrency = CURRENCIES['EU'];
-
-function getCurrency() { return currentCurrency; }
-
-/* Конвертировать из EUR в текущую валюту */
-function convert(eurPrice) {
-  return eurPrice * currentCurrency.rate;
+let currentCurrency=CURRENCIES['EU'];
+function convert(e){return e*currentCurrency.rate}
+function fmt(e){
+  const c=currentCurrency;
+  const num=convert(e).toFixed(c.decimals);
+  const after=['kr','Ft','zł','Kč','lei','Fr'].includes(c.symbol);
+  return after?`${num} ${c.symbol}`:`${c.symbol}${num}`;
+}
+function onCountryChange(code){
+  currentCurrency=CURRENCIES[code]||CURRENCIES['EU'];
+  document.getElementById('currency-symbol').textContent=currentCurrency.symbol;
+  document.getElementById('currency-code').textContent=currentCurrency.code;
+  document.getElementById('country-flag').textContent=currentCurrency.flag;
+  const chip=document.getElementById('currency-chip');
+  chip.classList.remove('currency-changed');void chip.offsetWidth;chip.classList.add('currency-changed');
+  renderProducts();updateCartUI();
 }
 
-/* Форматировать сумму с символом */
-function fmt(eurPrice) {
-  const c = currentCurrency;
-  const val = convert(eurPrice);
-  const num = val.toFixed(c.decimals);
-  // Символ перед числом для $, €, £, ¥, ₹, ₩ — после для kr, Ft, zł, Kč, lei
-  const after = ['kr','Ft','zł','Kč','lei','Fr'].includes(c.symbol);
-  return after ? `${num} ${c.symbol}` : `${c.symbol}${num}`;
-}
-
-/* ══════════════════════════════════════════════════════════
-   COUNTRY CHANGE HANDLER
-══════════════════════════════════════════════════════════ */
-function onCountryChange(countryCode) {
-  currentCountry = countryCode;
-  currentCurrency = CURRENCIES[countryCode] || CURRENCIES['EU'];
-
-  // Обновить чип с валютой
-  document.getElementById('currency-symbol').textContent = currentCurrency.symbol;
-  document.getElementById('currency-code').textContent   = currentCurrency.code;
-  document.getElementById('country-flag').textContent    = currentCurrency.flag;
-  const chip = document.getElementById('currency-chip');
-  chip.classList.remove('currency-changed');
-  void chip.offsetWidth; // reflow для рестарта анимации
-  chip.classList.add('currency-changed');
-
-  // Перерисовать всё
-  renderProducts();
-  updateCartUI();
-}
-
-/* ══════════════════════════════════════════════════════════
-   PRODUCTS
-══════════════════════════════════════════════════════════ */
 const PRODUCTS=[
   {id:1,name:'Classic White T-Shirt',priceEUR:24.99,category:'Apparel',desc:'Premium cotton, regular fit',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',emoji:'👕'},
@@ -476,27 +381,20 @@ const PRODUCTS=[
   {id:8,name:'Leather Wallet',priceEUR:18.99,category:'Accessories',desc:'Full-grain leather, RFID block',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71z3kpMAYsL._AC_UY879_.jpg',emoji:'👛'},
   {id:9,name:'Luxury Handbag',priceEUR:499.99,category:'Luxury',desc:'Italian leather, gold hardware',
-   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81XH0e8fefL._AC_UY879_.jpg',emoji:'👜'},
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81XH0e8fefL._AC_UY879_.jpg',emoji:'👜'}
 ];
 
-/* ══════════════════════════════════════════════════════════
-   CART  (хранит priceEUR — конвертируем при отображении)
-══════════════════════════════════════════════════════════ */
-let cart = JSON.parse(localStorage.getItem('fbk_cart') || '[]');
-const saveCart  = () => localStorage.setItem('fbk_cart', JSON.stringify(cart));
-const getTotalEUR = () => cart.reduce((s,i) => s + i.priceEUR * i.qty, 0);
-const getCount    = () => cart.reduce((s,i) => s + i.qty, 0);
+let cart=JSON.parse(localStorage.getItem('fbk_cart')||'[]');
+const saveCart=()=>localStorage.setItem('fbk_cart',JSON.stringify(cart));
+const getTotalEUR=()=>cart.reduce((s,i)=>s+i.priceEUR*i.qty,0);
+const getCount=()=>cart.reduce((s,i)=>s+i.qty,0);
 
-/* ══════════════════════════════════════════════════════════
-   RENDER PRODUCTS
-══════════════════════════════════════════════════════════ */
-function renderProducts() {
-  document.getElementById('products-grid').innerHTML = PRODUCTS.map(p => `
+function renderProducts(){
+  document.getElementById('products-grid').innerHTML=PRODUCTS.map(p=>`
     <div class="product-card">
       <div class="product-img">
         <img src="${p.img}" alt="${p.name}" loading="lazy"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="fallback-emoji" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:4rem">${p.emoji}</div>
+          onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem\\'>${p.emoji}</div>'">
       </div>
       <div class="product-body">
         <div style="font-size:0.68rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">${p.category}</div>
@@ -510,59 +408,39 @@ function renderProducts() {
     </div>`).join('');
 }
 
-/* ══════════════════════════════════════════════════════════
-   CART LOGIC
-══════════════════════════════════════════════════════════ */
-function addToCart(id) {
-  const p  = PRODUCTS.find(x => x.id === id);
-  const ex = cart.find(x => x.id === id);
-  if (ex) ex.qty++; else cart.push({ ...p, qty: 1 });
-  saveCart(); updateCartUI();
-  const btn = document.getElementById(`btn-${id}`);
-  if (btn) {
-    btn.classList.add('added'); btn.textContent = '✓ Added';
-    setTimeout(() => { btn.classList.remove('added'); btn.textContent = '+ Add'; }, 1200);
-  }
+function addToCart(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty++;else cart.push({...p,qty:1});
+  saveCart();updateCartUI();
+  const btn=document.getElementById('btn-'+id);
+  if(btn){btn.classList.add('added');btn.textContent='✓ Added';setTimeout(()=>{btn.classList.remove('added');btn.textContent='+ Add'},1200)}
 }
-function removeFromCart(id) { cart = cart.filter(i => i.id !== id); saveCart(); updateCartUI(); }
-function changeQty(id, d) {
-  const item = cart.find(i => i.id === id);
-  if (!item) return;
-  item.qty += d;
-  if (item.qty <= 0) removeFromCart(id); else { saveCart(); updateCartUI(); }
+function removeFromCart(id){cart=cart.filter(i=>i.id!==id);saveCart();updateCartUI()}
+function changeQty(id,d){
+  const item=cart.find(i=>i.id===id);if(!item)return;
+  item.qty+=d;if(item.qty<=0)removeFromCart(id);else{saveCart();updateCartUI()}
 }
-
-function updateCartUI() {
-  const count    = getCount();
-  const totalEUR = getTotalEUR();
-
-  // Badge
-  const badge = document.getElementById('cart-badge');
-  badge.textContent = count;
-  badge.classList.toggle('visible', count > 0);
-  const cb = document.getElementById('cart-count-badge');
-  if (cb) cb.textContent = count;
-
-  // Cart total в текущей валюте
-  document.getElementById('cart-total').textContent = fmt(totalEUR);
-  const btn = document.getElementById('proceed-checkout-btn');
-  if (btn) btn.disabled = count === 0;
-
-  // Cart items
-  const list  = document.getElementById('cart-items-list');
-  const empty = document.getElementById('cart-empty');
-  list.querySelectorAll('.cart-item').forEach(el => el.remove());
-  if (cart.length === 0) { empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  cart.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'cart-item';
-    el.innerHTML = `
+function updateCartUI(){
+  const count=getCount(),totalEUR=getTotalEUR();
+  const badge=document.getElementById('cart-badge');
+  badge.textContent=count;badge.classList.toggle('visible',count>0);
+  const cb=document.getElementById('cart-count-badge');if(cb)cb.textContent=count;
+  document.getElementById('cart-total').textContent=fmt(totalEUR);
+  const btn=document.getElementById('proceed-checkout-btn');if(btn)btn.disabled=count===0;
+  const list=document.getElementById('cart-items-list');
+  const empty=document.getElementById('cart-empty');
+  list.querySelectorAll('.cart-item').forEach(el=>el.remove());
+  if(cart.length===0){empty.style.display='block';return}
+  empty.style.display='none';
+  cart.forEach(item=>{
+    const el=document.createElement('div');el.className='cart-item';
+    el.innerHTML=`
       <img class="cart-item-img" src="${item.img}" alt="${item.name}"
-        onerror="this.style.background='#F9FAFB'">
+        onerror="this.src='';this.style.background='#F9FAFB';this.style.display='flex';this.style.alignItems='center';this.style.justifyContent='center'">
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">${fmt(item.priceEUR * item.qty)}</div>
+        <div class="cart-item-price">${fmt(item.priceEUR*item.qty)}</div>
       </div>
       <div class="cart-item-qty">
         <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
@@ -570,212 +448,128 @@ function updateCartUI() {
         <button class="qty-btn" onclick="changeQty(${item.id},+1)">+</button>
       </div>
       <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>`;
-    list.insertBefore(el, empty);
+    list.insertBefore(el,empty);
   });
 }
+function openCart(){document.getElementById('cart-overlay').classList.add('open');document.getElementById('cart-sidebar').classList.add('open');document.body.style.overflow='hidden'}
+function closeCart(){document.getElementById('cart-overlay').classList.remove('open');document.getElementById('cart-sidebar').classList.remove('open');document.body.style.overflow=''}
+function goBackToShop(){document.getElementById('shop-page').classList.remove('hidden');document.getElementById('checkout-page').classList.remove('active');closeCart()}
+function resetStore(){cart=[];saveCart();updateCartUI();document.getElementById('success-modal').classList.remove('open');goBackToShop()}
 
-function openCart()  { document.getElementById('cart-overlay').classList.add('open'); document.getElementById('cart-sidebar').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-sidebar').classList.remove('open'); document.body.style.overflow = ''; }
-function goBackToShop() { document.getElementById('shop-page').classList.remove('hidden'); document.getElementById('checkout-page').classList.remove('active'); closeCart(); }
-function resetStore()   { cart = []; saveCart(); updateCartUI(); document.getElementById('success-modal').classList.remove('open'); goBackToShop(); }
-
-/* ══════════════════════════════════════════════════════════
-   CHECKOUT
-══════════════════════════════════════════════════════════ */
-async function goToCheckout() {
-  if (cart.length === 0) return;
+async function goToCheckout(){
+  if(cart.length===0)return;
   closeCart();
   document.getElementById('shop-page').classList.add('hidden');
   document.getElementById('checkout-page').classList.add('active');
   renderOrderSummary();
   await initPayment();
 }
-
-function renderOrderSummary() {
-  const totalEUR = getTotalEUR();
-  document.getElementById('order-items-list').innerHTML = cart.map(i => `
+function renderOrderSummary(){
+  const totalEUR=getTotalEUR();
+  document.getElementById('order-items-list').innerHTML=cart.map(i=>`
     <div class="order-item">
-      <img class="order-item-img" src="${i.img}" alt="${i.name}" onerror="this.style.background='#F9FAFB'">
+      <img class="order-item-img" src="${i.img}" alt="${i.name}"
+        onerror="this.src='';this.style.background='#F9FAFB'">
       <div class="order-item-name">${i.name}</div>
       <span class="order-item-qty">×${i.qty}</span>
-      <div class="order-item-price">${fmt(i.priceEUR * i.qty)}</div>
+      <div class="order-item-price">${fmt(i.priceEUR*i.qty)}</div>
     </div>`).join('');
-  document.getElementById('summary-subtotal').textContent = fmt(totalEUR);
-  document.getElementById('summary-total').textContent    = fmt(totalEUR);
+  document.getElementById('summary-subtotal').textContent=fmt(totalEUR);
+  document.getElementById('summary-total').textContent=fmt(totalEUR);
 }
 
-/* ══════════════════════════════════════════════════════════
-   PAYMENT INIT
-   
-   Архитектура:
-   Браузер → Cloudflare Worker (прокси, решает CORS) → sandbox.gestpay.net
-   
-   Пока Worker не настроен — используем DEMO-режим:
-   fbk-checkout получает реальный paymentToken только если
-   payment/create вернул успешный ответ через прокси.
-══════════════════════════════════════════════════════════ */
-const SHOP_LOGIN = 'GESPAY98588';
-const API_BASE   = 'https://sandbox.gestpay.net/api/v1';
-const AUTH_TOKEN = 'R0VTUEFZOTg1ODgjI0VzZXJjZW50ZSBUZXN0IGRpIFJvc3NpIyMyNi8wNS8yMDI2IDE3OjU5OjM5';
+/* ══ PAYMENT INIT ══
+   PROXY_URL = Cloudflare Worker для обхода CORS
+   URL обновлён на реальный задеплоенный воркер
+*/
+const SHOP_LOGIN='GESPAY98588';
+const AUTH_TOKEN='R0VTUEFZOTg1ODgjI0VzZXJjZW50ZSBUZXN0IGRpIFJvc3NpIyMyNi8wNS8yMDI2IDE3OjU5OjM5';
+const PROXY_URL='https://jolly-band-1960.kbezvezyuk.workers.dev';
 
-// Если настроишь Cloudflare Worker — вставь его URL сюда:
-// const PROXY_URL = 'https://fabrick-proxy.YOUR-NAME.workers.dev';
-const PROXY_URL = 'https://fabrick-proxy.kbezvezyuk.workers.dev';
+let currentPaymentId=null,currentPaymentToken=null;
 
-let currentPaymentId = null, currentPaymentToken = null;
+async function initPayment(){
+  const wrap=document.getElementById('payment-component-wrap');
+  const loadingEl=document.getElementById('payment-loading');
+  const statusEl=document.getElementById('init-status');
+  const statusText=document.getElementById('init-status-text');
+  loadingEl.style.display='flex';statusEl.style.display='flex';
+  statusEl.className='init-status loading';statusText.textContent='Calling payment/create API…';
 
-async function initPayment() {
-  const wrap       = document.getElementById('payment-component-wrap');
-  const loadingEl  = document.getElementById('payment-loading');
-  const statusEl   = document.getElementById('init-status');
-  const statusText = document.getElementById('init-status-text');
+  const c=currentCurrency;
+  const amount=convert(getTotalEUR()).toFixed(c.decimals);
+  const shopTxId='ORDER-'+Date.now();
+  let paymentId,paymentToken,isRealToken=false;
 
-  loadingEl.style.display = 'flex';
-  statusEl.style.display  = 'flex';
-  statusEl.className = 'init-status loading';
-  statusText.textContent = 'Calling payment/create API…';
-
-  const c      = currentCurrency;
-  const amount = convert(getTotalEUR()).toFixed(c.decimals);
-  const shopTxId = 'ORDER-' + Date.now();
-
-  let paymentId, paymentToken, isRealToken = false;
-
-  // Если прокси настроен — пробуем реальный вызов
-  if (PROXY_URL) {
-    try {
-      const res = await fetch(`${PROXY_URL}/payment/create`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          shopLogin:       SHOP_LOGIN,
-          amount:          amount,
-          currency:        c.code,
-          shopTransactionId: shopTxId,
-          paymentType:     'SINGLE'
-        })
-      });
-      if (res.ok) {
-        const d = await res.json();
-        // Fabrick возвращает payload.paymentToken и payload.paymentID
-        const payload = d.payload || d;
-        paymentId    = payload.paymentID    || payload.paymentId;
-        paymentToken = payload.paymentToken || payload.PaymentToken;
-        if (paymentId && paymentToken) isRealToken = true;
-      } else {
-        throw new Error(`HTTP ${res.status}`);
-      }
-    } catch (err) {
-      console.warn('Proxy call failed:', err.message);
-    }
-  }
-
-  // DEMO fallback — генерируем токены для UI-демонстрации
-  if (!isRealToken) {
-    paymentId    = 'DEMO-' + Date.now();
-    paymentToken = 'DEMOTOKEN-' + Math.random().toString(36).slice(2,10).toUpperCase();
-    console.log('ℹ️  DEMO mode: real payment/create requires backend proxy (CORS).');
-  }
-
-  currentPaymentId    = paymentId;
-  currentPaymentToken = paymentToken;
-
-  statusEl.className = isRealToken ? 'init-status success' : 'init-status demo';
-  statusText.textContent = isRealToken
-    ? `✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
-    : `Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
-
-  loadingEl.style.display = 'none';
-  wrap.querySelector('fbk-checkout')?.remove();
-  wrap.querySelector('.cors-notice')?.remove();
-
-  if (!isRealToken) {
-    // Показываем объяснение + инструкцию по Worker
-    const notice = document.createElement('div');
-    notice.className = 'cors-notice';
-    notice.innerHTML = `
-      <div class="cors-icon">🔌</div>
-      <div class="cors-title">Backend proxy required for live payments</div>
-      <div class="cors-body">
-        <code>payment/create</code> is a server-to-server API — browsers cannot call it directly (CORS policy).<br>
-        To activate real payments, set up a <strong>Cloudflare Worker</strong> as a free proxy in 5 minutes:
-      </div>
-      <details class="cors-details">
-        <summary>▶ How to set up Cloudflare Worker (free, 5 min)</summary>
-        <ol>
-          <li>Go to <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a> → sign up free</li>
-          <li>Create Worker → paste this code:</li>
-        </ol>
-        <pre>export default {
-  async fetch(request) {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders() });
-    }
-    const body = await request.json();
-    const res = await fetch(
-      'https://sandbox.gestpay.net/api/v1/payment/create/',
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': '${AUTH_TOKEN}',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      }
-    );
-    const data = await res.json();
-    return new Response(JSON.stringify(data), {
-      headers: { 'Content-Type': 'application/json', ...corsHeaders() }
+  try{
+    const res=await fetch(PROXY_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        shopLogin:SHOP_LOGIN,
+        amount:amount,
+        currency:c.code,
+        shopTransactionId:shopTxId,
+        paymentType:'SINGLE'
+      })
     });
+    if(res.ok){
+      const d=await res.json();
+      const payload=d.payload||d;
+      paymentId=payload.paymentID||payload.paymentId||payload.PaymentID;
+      paymentToken=payload.paymentToken||payload.PaymentToken;
+      if(paymentId&&paymentToken)isRealToken=true;
+    }else{
+      const errText=await res.text();
+      console.warn('Proxy error:',res.status,errText);
+    }
+  }catch(err){
+    console.warn('Proxy call failed:',err.message);
   }
-};
 
-function corsHeaders() {
-  return {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
-  };
-}</pre>
-        <ol start="3">
-          <li>Deploy → copy Worker URL (e.g. <code>https://fabrick-proxy.name.workers.dev</code>)</li>
-          <li>In <code>index.html</code> set: <code>const PROXY_URL = 'https://jolly-band-1960.kbezvezyuk.workers.dev/';</code></li>
-          <li>Commit → site is live with real payments ✓</li>
-        </ol>
-      </details>`;
+  if(!isRealToken){
+    paymentId='DEMO-'+Date.now();
+    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
+  }
+
+  currentPaymentId=paymentId;currentPaymentToken=paymentToken;
+  statusEl.className=isRealToken?'init-status success':'init-status demo';
+  statusText.textContent=isRealToken
+    ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
+    :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
+  loadingEl.style.display='none';
+  wrap.querySelector('fbk-checkout')?.remove();
+  wrap.querySelector('.demo-notice')?.remove();
+
+  if(!isRealToken){
+    const notice=document.createElement('div');
+    notice.className='demo-notice';
+    notice.style.cssText='background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:0.8rem;color:#92400E';
+    notice.innerHTML='⚠️ Demo mode — Cloudflare Worker не ответил. Проверь что воркер задеплоен и URL правильный.';
     wrap.appendChild(notice);
   }
 
-  /* EMBED <fbk-checkout> per PDF docs
-     payment-id and payment-token are mandatory attributes */
-  const fbk = document.createElement('fbk-checkout');
-  fbk.setAttribute('payment-id',    paymentId);
-  fbk.setAttribute('payment-token', paymentToken);
-  fbk.setAttribute('layout',        'horizontal');
+  /* <fbk-checkout> per PDF docs — mandatory: payment-id, payment-token */
+  const fbk=document.createElement('fbk-checkout');
+  fbk.setAttribute('payment-id',paymentId);
+  fbk.setAttribute('payment-token',paymentToken);
+  fbk.setAttribute('layout','horizontal');
   wrap.appendChild(fbk);
 }
 
-window.addEventListener('fbk-elements-error', e => {
-  const { title, message } = e.detail || {};
-  const t = document.getElementById('error-toast');
-  document.getElementById('error-toast-title').textContent = title   || 'Error';
-  document.getElementById('error-toast-msg').textContent   = message || '';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 5000);
+window.addEventListener('fbk-elements-error',e=>{
+  const{title,message}=e.detail||{};
+  const t=document.getElementById('error-toast');
+  document.getElementById('error-toast-title').textContent=title||'Error';
+  document.getElementById('error-toast-msg').textContent=message||'';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),5000);
 });
-
-window.addEventListener('fbk-payment-complete', e => {
-  const { paymentID } = e.detail || {};
-  document.getElementById('modal-txid').textContent = `Transaction ID: ${paymentID || currentPaymentId}`;
+window.addEventListener('fbk-payment-complete',e=>{
+  const{paymentID}=e.detail||{};
+  document.getElementById('modal-txid').textContent=`Transaction ID: ${paymentID||currentPaymentId}`;
   document.getElementById('success-modal').classList.add('open');
 });
 
-window._simulateSuccess = () => {
-  document.getElementById('modal-txid').textContent = `Transaction ID: ${currentPaymentId}`;
-  document.getElementById('success-modal').classList.add('open');
-};
-
-/* ── INIT ── */
 renderProducts();
 updateCartUI();
 </script>

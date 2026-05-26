@@ -124,6 +124,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .init-status.loading .status-dot{background:var(--primary);animation:pulse 1.2s infinite}
 .init-status.success .status-dot{background:#16A34A}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.init-status.demo .status-dot{background:#F97316}
+
+/* ── CORS NOTICE ── */
+.cors-notice{background:#F8FAFF;border:1px solid #DBEAFE;border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.cors-icon{font-size:1.5rem;margin-bottom:8px}
+.cors-title{font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:6px}
+.cors-body{font-size:0.8rem;color:var(--text-muted);line-height:1.6;margin-bottom:10px}
+.cors-body code{background:#EFF6FF;color:var(--primary);padding:1px 5px;border-radius:4px;font-size:0.78rem}
+.cors-details{font-size:0.78rem;color:var(--text-muted)}
+.cors-details summary{cursor:pointer;color:var(--primary);font-weight:500;padding:4px 0;user-select:none}
+.cors-details summary:hover{text-decoration:underline}
+.cors-details ol{padding-left:18px;margin:10px 0;line-height:1.8}
+.cors-details a{color:var(--primary)}
+.cors-details pre{background:#0F172A;color:#E2E8F0;border-radius:8px;padding:14px;font-size:0.72rem;line-height:1.6;overflow-x:auto;margin:8px 0;white-space:pre-wrap;word-break:break-word}
+.cors-details code{background:#EFF6FF;color:var(--primary);padding:1px 5px;border-radius:3px}
 
 /* ── ORDER SUMMARY ── */
 .order-summary{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;position:sticky;top:76px}
@@ -131,7 +146,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .order-items{padding:14px 18px}
 .order-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
 .order-item:last-child{border-bottom:none}
-.order-item-img{width:40px;height:40px;border-radius:6px;object-fit:contain;padding:3px;background:#F9FAFB;border:1px solid var(--border)}
+.order-item-img{width:44px;height:44px;border-radius:6px;object-fit:contain;padding:4px;background:#F9FAFB;border:1px solid var(--border);flex-shrink:0;display:block}
 .order-item-name{font-size:0.8rem;font-weight:500;flex:1}
 .order-item-qty{font-size:0.72rem;color:var(--text-muted);background:var(--bg);border-radius:4px;padding:1px 5px}
 .order-item-price{font-size:0.82rem;font-weight:600}
@@ -443,16 +458,25 @@ function onCountryChange(countryCode) {
 /* ══════════════════════════════════════════════════════════
    PRODUCTS
 ══════════════════════════════════════════════════════════ */
-const PRODUCTS = [
-  { id:1,  name:'Classic White T-Shirt', priceEUR:24.99,  category:'Apparel',     desc:'Premium cotton, regular fit',          img:'https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg', emoji:'👕' },
-  { id:2,  name:'Wireless Headphones',   priceEUR:19.99,  category:'Electronics', desc:'30h battery, noise-cancelling',        img:'https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg',                   emoji:'🎧' },
-  { id:3,  name:'Gold Chain Bracelet',   priceEUR:14.99,  category:'Jewellery',   desc:'Rose gold plated, adjustable',         img:'https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_FMwebp_QL65_.jpg',       emoji:'📿' },
-  { id:4,  name:'Running Sneakers',      priceEUR:35.99,  category:'Footwear',    desc:'Lightweight, breathable mesh',         img:'https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg',                   emoji:'👟' },
-  { id:5,  name:'Slim Fit Jeans',        priceEUR:39.99,  category:'Apparel',     desc:'Stretch denim, mid-rise',              img:'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg',                   emoji:'👖' },
-  { id:6,  name:'Laptop Backpack',       priceEUR:29.99,  category:'Bags',        desc:'28L, USB charging port',               img:'https://fakestoreapi.com/img/81fAn4GxoIL._AC_UL640_FMwebp_QL65_.jpg',       emoji:'🎒' },
-  { id:7,  name:'Smart Watch',           priceEUR:149.99, category:'Electronics', desc:'Heart rate, GPS, waterproof',          img:'https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg',                   emoji:'⌚' },
-  { id:8,  name:'Leather Wallet',        priceEUR:18.99,  category:'Accessories', desc:'Full-grain leather, RFID block',       img:'https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_.jpg',                   emoji:'👛' },
-  { id:9,  name:'Luxury Handbag',        priceEUR:499.99, category:'Luxury',      desc:'Italian leather, gold hardware',       img:'https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879-2.jpg',                  emoji:'👜' },
+const PRODUCTS=[
+  {id:1,name:'Classic White T-Shirt',priceEUR:24.99,category:'Apparel',desc:'Premium cotton, regular fit',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',emoji:'👕'},
+  {id:2,name:'Wireless Headphones',priceEUR:19.99,category:'Electronics',desc:'30h battery, noise-cancelling',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/61IBBVJvSDL._AC_SY879_.jpg',emoji:'🎧'},
+  {id:3,name:'Gold Chain Bracelet',priceEUR:14.99,category:'Jewellery',desc:'Rose gold plated, adjustable',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',emoji:'📿'},
+  {id:4,name:'Running Sneakers',priceEUR:35.99,category:'Footwear',desc:'Lightweight, breathable mesh',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71YXzeOuslL._AC_UY879_.jpg',emoji:'👟'},
+  {id:5,name:'Slim Fit Jeans',priceEUR:39.99,category:'Apparel',desc:'Stretch denim, mid-rise',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71li-ujtlUL._AC_UX679_.jpg',emoji:'👖'},
+  {id:6,name:'Laptop Backpack',priceEUR:29.99,category:'Bags',desc:'28L, USB charging port',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81fPKd-2AYL._AC_SL1500_.jpg',emoji:'🎒'},
+  {id:7,name:'Smart Watch',priceEUR:149.99,category:'Electronics',desc:'Heart rate, GPS, waterproof',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/61mtL65D4cL._AC_SX679_.jpg',emoji:'⌚'},
+  {id:8,name:'Leather Wallet',priceEUR:18.99,category:'Accessories',desc:'Full-grain leather, RFID block',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71z3kpMAYsL._AC_UY879_.jpg',emoji:'👛'},
+  {id:9,name:'Luxury Handbag',priceEUR:499.99,category:'Luxury',desc:'Italian leather, gold hardware',
+   img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81XH0e8fefL._AC_UY879_.jpg',emoji:'👜'},
 ];
 
 /* ══════════════════════════════════════════════════════════
@@ -581,12 +605,23 @@ function renderOrderSummary() {
 }
 
 /* ══════════════════════════════════════════════════════════
-   PAYMENT INIT — payment/create → <fbk-checkout>
-   Передаём converted amount + текущий currency code
+   PAYMENT INIT
+   
+   Архитектура:
+   Браузер → Cloudflare Worker (прокси, решает CORS) → sandbox.gestpay.net
+   
+   Пока Worker не настроен — используем DEMO-режим:
+   fbk-checkout получает реальный paymentToken только если
+   payment/create вернул успешный ответ через прокси.
 ══════════════════════════════════════════════════════════ */
 const SHOP_LOGIN = 'GESPAY98588';
 const API_BASE   = 'https://sandbox.gestpay.net/api/v1';
 const AUTH_TOKEN = 'R0VTUEFZOTg1ODgjI0VzZXJjZW50ZSBUZXN0IGRpIFJvc3NpIyMyNi8wNS8yMDI2IDE3OjU5OjM5';
+
+// Если настроишь Cloudflare Worker — вставь его URL сюда:
+// const PROXY_URL = 'https://fabrick-proxy.YOUR-NAME.workers.dev';
+const PROXY_URL = 'https://fabrick-proxy.kbezvezyuk.workers.dev';
+
 let currentPaymentId = null, currentPaymentToken = null;
 
 async function initPayment() {
@@ -602,32 +637,117 @@ async function initPayment() {
 
   const c      = currentCurrency;
   const amount = convert(getTotalEUR()).toFixed(c.decimals);
+  const shopTxId = 'ORDER-' + Date.now();
 
-  let paymentId, paymentToken;
-  try {
-    const res = await fetch(`${API_BASE}/payment/create/`, {
-      method: 'POST',
-      headers: { 'Authorization': AUTH_TOKEN, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, currency: c.code, shopLogin: SHOP_LOGIN, paymentType: 'SINGLE' })
-    });
-    if (res.ok) {
-      const d = await res.json();
-      paymentId    = d.paymentID    || d.PaymentID;
-      paymentToken = d.paymentToken || d.PaymentToken;
-    } else throw new Error(`${res.status}`);
-  } catch (err) {
-    console.warn('REAL CALL WOULD GO HERE — CORS blocked, demo tokens:', err.message);
-    paymentId    = 'DEMO-' + Date.now();
-    paymentToken = 'TOKEN-' + Math.random().toString(36).slice(2,10).toUpperCase();
+  let paymentId, paymentToken, isRealToken = false;
+
+  // Если прокси настроен — пробуем реальный вызов
+  if (PROXY_URL) {
+    try {
+      const res = await fetch(`${PROXY_URL}/payment/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          shopLogin:       SHOP_LOGIN,
+          amount:          amount,
+          currency:        c.code,
+          shopTransactionId: shopTxId,
+          paymentType:     'SINGLE'
+        })
+      });
+      if (res.ok) {
+        const d = await res.json();
+        // Fabrick возвращает payload.paymentToken и payload.paymentID
+        const payload = d.payload || d;
+        paymentId    = payload.paymentID    || payload.paymentId;
+        paymentToken = payload.paymentToken || payload.PaymentToken;
+        if (paymentId && paymentToken) isRealToken = true;
+      } else {
+        throw new Error(`HTTP ${res.status}`);
+      }
+    } catch (err) {
+      console.warn('Proxy call failed:', err.message);
+    }
   }
 
-  currentPaymentId = paymentId; currentPaymentToken = paymentToken;
-  statusEl.className = 'init-status success';
-  statusText.textContent = `Initialized · ${c.code} ${amount} · ID: ${paymentId}`;
+  // DEMO fallback — генерируем токены для UI-демонстрации
+  if (!isRealToken) {
+    paymentId    = 'DEMO-' + Date.now();
+    paymentToken = 'DEMOTOKEN-' + Math.random().toString(36).slice(2,10).toUpperCase();
+    console.log('ℹ️  DEMO mode: real payment/create requires backend proxy (CORS).');
+  }
+
+  currentPaymentId    = paymentId;
+  currentPaymentToken = paymentToken;
+
+  statusEl.className = isRealToken ? 'init-status success' : 'init-status demo';
+  statusText.textContent = isRealToken
+    ? `✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
+    : `Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
+
   loadingEl.style.display = 'none';
   wrap.querySelector('fbk-checkout')?.remove();
+  wrap.querySelector('.cors-notice')?.remove();
 
-  /* EMBED <fbk-checkout> per PDF docs */
+  if (!isRealToken) {
+    // Показываем объяснение + инструкцию по Worker
+    const notice = document.createElement('div');
+    notice.className = 'cors-notice';
+    notice.innerHTML = `
+      <div class="cors-icon">🔌</div>
+      <div class="cors-title">Backend proxy required for live payments</div>
+      <div class="cors-body">
+        <code>payment/create</code> is a server-to-server API — browsers cannot call it directly (CORS policy).<br>
+        To activate real payments, set up a <strong>Cloudflare Worker</strong> as a free proxy in 5 minutes:
+      </div>
+      <details class="cors-details">
+        <summary>▶ How to set up Cloudflare Worker (free, 5 min)</summary>
+        <ol>
+          <li>Go to <a href="https://workers.cloudflare.com" target="_blank">workers.cloudflare.com</a> → sign up free</li>
+          <li>Create Worker → paste this code:</li>
+        </ol>
+        <pre>export default {
+  async fetch(request) {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: corsHeaders() });
+    }
+    const body = await request.json();
+    const res = await fetch(
+      'https://sandbox.gestpay.net/api/v1/payment/create/',
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': '${AUTH_TOKEN}',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+    );
+    const data = await res.json();
+    return new Response(JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json', ...corsHeaders() }
+    });
+  }
+};
+
+function corsHeaders() {
+  return {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+}</pre>
+        <ol start="3">
+          <li>Deploy → copy Worker URL (e.g. <code>https://fabrick-proxy.name.workers.dev</code>)</li>
+          <li>In <code>index.html</code> set: <code>const PROXY_URL = 'https://your-worker.workers.dev';</code></li>
+          <li>Commit → site is live with real payments ✓</li>
+        </ol>
+      </details>`;
+    wrap.appendChild(notice);
+  }
+
+  /* EMBED <fbk-checkout> per PDF docs
+     payment-id and payment-token are mandatory attributes */
   const fbk = document.createElement('fbk-checkout');
   fbk.setAttribute('payment-id',    paymentId);
   fbk.setAttribute('payment-token', paymentToken);

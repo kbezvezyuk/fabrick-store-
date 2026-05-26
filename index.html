@@ -497,8 +497,9 @@ async function initPayment(){
   statusEl.className='init-status loading';statusText.textContent='Calling payment/create API…';
 
   const c=currentCurrency;
-  const amount=convert(getTotalEUR()).toFixed(c.decimals);
-  const shopTxId='ORDER-'+Date.now();
+  const rawAmount=convert(getTotalEUR());
+  const amount=rawAmount%1===0?String(Math.round(rawAmount)):rawAmount.toFixed(2);
+  const shopTxId='ORDER'+Date.now();
   let paymentId,paymentToken,isRealToken=false;
 
   try{
@@ -509,8 +510,7 @@ async function initPayment(){
         shopLogin:SHOP_LOGIN,
         amount:amount,
         currency:c.code,
-        shopTransactionID:shopTxId,
-        paymentType:'SINGLE'
+        shopTransactionID:shopTxId
       })
     });
     if(res.ok){

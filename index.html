@@ -554,9 +554,12 @@ async function initPayment(){
   }
 
   const fbk = document.createElement('fbk-card');
-  fbk.paymentId = paymentId;
-  fbk.paymentToken = paymentToken;
-  fbk.layout = 'horizontal';
+  // ⚠️ ВАЖНО: setAttribute, не JS-свойства
+  // Angular Web Component читает токены через HTML-атрибуты (payment-id, payment-token)
+  // Устанавливаем ДО appendChild — иначе Angular инициализируется без токенов
+  fbk.setAttribute('payment-id', paymentId);
+  fbk.setAttribute('payment-token', paymentToken);
+  fbk.setAttribute('layout', 'horizontal');
   wrap.appendChild(fbk);
   console.log('fbk-card injected:', {paymentId, paymentToken});
 }

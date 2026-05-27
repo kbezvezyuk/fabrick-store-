@@ -455,26 +455,26 @@ function switchLang(lang) {
 
 const PRODUCTS_DATA = {
   EN: [
-    {id:1, name:'Classic White T-Shirt',    category:'Apparel',     desc:'Premium cotton, regular fit'},
-    {id:2, name:'Wireless Headphones',       category:'Electronics', desc:'30h battery, noise-cancelling'},
-    {id:3, name:'Gold Ring Set',             category:'Jewellery',   desc:'18k gold plated, set of 3'},
-    {id:4, name:'Men\'s Ankle Boots',        category:'Footwear',    desc:'Genuine leather, casual style'},
-    {id:5, name:'Slim Fit Jeans',            category:'Apparel',     desc:'Stretch denim, mid-rise'},
+    {id:1, name:"Men's Grey Long Sleeve",    category:'Apparel',     desc:'Cotton blend, slim fit'},
+    {id:2, name:'WD Elements Portable',      category:'Electronics', desc:'1TB, USB 3.0, plug & play'},
+    {id:3, name:'Silver Bracelet',           category:'Jewellery',   desc:'925 sterling silver, adjustable'},
+    {id:4, name:"Men's Blue Long Sleeve",    category:'Apparel',     desc:'Cotton blend, regular fit'},
+    {id:5, name:"Men's Windbreaker",         category:'Apparel',     desc:'Lightweight, water-resistant'},
     {id:6, name:'Laptop Backpack',           category:'Bags',        desc:'28L, USB charging port'},
-    {id:7, name:'Smart Watch',               category:'Electronics', desc:'Heart rate, GPS, waterproof'},
-    {id:8, name:'Women\'s Tote Bag',         category:'Accessories', desc:'Faux leather, spacious interior'},
-    {id:9, name:'Hooded Biker Jacket',       category:'Apparel',     desc:'Faux leather, removable hood'},
+    {id:7, name:'WD Elements Portable',      category:'Electronics', desc:'1TB, USB 3.0, plug & play'},
+    {id:8, name:"Women's White T-Shirt",     category:'Apparel',     desc:'Premium cotton, regular fit'},
+    {id:9, name:"Women's Leather Jacket",    category:'Apparel',     desc:'Genuine leather, slim fit'},
   ],
   IT: [
-    {id:1, name:'T-Shirt Bianca Classica',   category:'Abbigliamento', desc:'Cotone premium, vestibilità regular'},
-    {id:2, name:'Cuffie Wireless',           category:'Elettronica',   desc:'30h batteria, cancellazione rumore'},
-    {id:3, name:'Set Anelli Dorati',         category:'Gioielleria',   desc:'Placcato oro 18k, set da 3'},
-    {id:4, name:'Stivaletti Uomo',           category:'Calzature',     desc:'Pelle vera, stile casual'},
-    {id:5, name:'Jeans Slim Fit',            category:'Abbigliamento', desc:'Denim elasticizzato, vita media'},
+    {id:1, name:'Longsleeve Uomo Grigio',    category:'Abbigliamento', desc:'Misto cotone, slim fit'},
+    {id:2, name:'WD Elements Portable',      category:'Elettronica',   desc:'1TB, USB 3.0, plug & play'},
+    {id:3, name:'Bracciale Argento',         category:'Gioielleria',   desc:'Argento 925, regolabile'},
+    {id:4, name:'Longsleeve Uomo Blu',       category:'Abbigliamento', desc:'Misto cotone, vestibilità regular'},
+    {id:5, name:'Giacca a Vento Uomo',       category:'Abbigliamento', desc:'Leggera, idrorepellente'},
     {id:6, name:'Zaino per Laptop',          category:'Borse',         desc:'28L, porta USB integrata'},
-    {id:7, name:'Smartwatch',                category:'Elettronica',   desc:'Cardiofrequenzimetro, GPS, impermeabile'},
-    {id:8, name:'Borsa Tote Donna',          category:'Accessori',     desc:'Ecopelle, interno spazioso'},
-    {id:9, name:'Giacca Biker con Cappuccio', category:'Abbigliamento', desc:'Ecopelle, cappuccio removibile'},
+    {id:7, name:'WD Elements Portable',      category:'Elettronica',   desc:'1TB, USB 3.0, plug & play'},
+    {id:8, name:'T-Shirt Donna Bianca',      category:'Abbigliamento', desc:'Cotone premium, vestibilità regular'},
+    {id:9, name:'Giacca in Pelle Donna',     category:'Abbigliamento', desc:'Pelle vera, slim fit'},
   ]
 };
 
@@ -489,8 +489,8 @@ const PRODUCT_IMGS = [
   'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71z3kpMAYsL._AC_UY879_.jpg',
   'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81XH0e8fefL._AC_UY879_.jpg',
 ];
-const PRODUCT_EMOJIS = ['👕','🎧','💍','👢','👖','🎒','⌚','👜','🧥'];
-const PRODUCT_PRICES = [25,20,15,36,40,30,150,19,89];
+const PRODUCT_EMOJIS = ['👕','💾','📿','👕','🧥','🎒','💾','👚','🧥'];
+const PRODUCT_PRICES = [25,20,15,36,40,30,20,19,89];
 
 function getProducts() {
   return PRODUCTS_DATA[currentLang].map((p, i) => ({

@@ -553,18 +553,18 @@ async function initPayment(){
     wrap.appendChild(notice);
   }
 
-  const fbk = document.createElement('fbk-checkout');
-  // setAttribute — Angular читает токены через HTML-атрибуты
-  // Устанавливаем ДО appendChild
-  fbk.setAttribute('payment-id', paymentId);
-  fbk.setAttribute('payment-token', paymentToken);
-  fbk.setAttribute('layout', 'horizontal');
-  fbk.setAttribute('apple-button-style', 'black');
-  fbk.setAttribute('apple-button-type', 'plain');
-  fbk.setAttribute('google-button-style', 'black');
-  fbk.setAttribute('google-button-type', 'plain');
-  wrap.appendChild(fbk);
-  console.log('fbk-checkout injected:', {paymentId, paymentToken});
+  // Вставляем через innerHTML — так Angular обрабатывает атрибуты при парсинге HTML
+  // а не через setAttribute после регистрации элемента
+  wrap.innerHTML += `<fbk-checkout
+    payment-id="${paymentId}"
+    payment-token="${paymentToken}"
+    layout="horizontal"
+    apple-button-style="black"
+    apple-button-type="plain"
+    google-button-style="black"
+    google-button-type="plain">
+  </fbk-checkout>`;
+  console.log('fbk-checkout injected via innerHTML:', {paymentId, paymentToken});
 }
 
 window.addEventListener('fbk-elements-ready', e => {

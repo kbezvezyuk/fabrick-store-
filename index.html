@@ -264,8 +264,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
               apple-button-style="black"
               apple-button-type="plain"
               google-button-style="black"
-              google-button-type="plain"
-              style="display:none">
+              google-button-type="plain">
             </fbk-checkout>
           </div>
           <div id="init-status" class="init-status loading" style="display:none">
@@ -562,12 +561,12 @@ async function initPayment(){
     wrap.appendChild(notice);
   }
 
-  /* Устанавливаем атрибуты на статичный <fbk-checkout> элемент
-     и показываем его — per PDF docs: payment-id и payment-token обязательны */
+  /* <fbk-checkout> — сначала показываем, потом устанавливаем атрибуты
+     Web Components не инициализируются если скрыты через display:none */
   const fbk = document.getElementById('fbk-checkout-el');
+  fbk.style.display = 'block';
   fbk.setAttribute('payment-id', paymentId);
   fbk.setAttribute('payment-token', paymentToken);
-  fbk.style.display = 'block';
   console.log('fbk-checkout attrs set:', {paymentId, paymentToken});
 }
 

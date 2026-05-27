@@ -354,7 +354,7 @@ let currentCurrency=CURRENCIES['EU'];
 function convert(e){return e*currentCurrency.rate}
 function fmt(e){
   const c=currentCurrency;
-  const num=convert(e).toFixed(c.decimals);
+  const num=Math.round(convert(e));
   const after=['kr','Ft','zł','Kč','lei','Fr'].includes(c.symbol);
   return after?`${num} ${c.symbol}`:`${c.symbol}${num}`;
 }
@@ -369,23 +369,23 @@ function onCountryChange(code){
 }
 
 const PRODUCTS=[
-  {id:1,name:'Classic White T-Shirt',priceEUR:24.99,category:'Apparel',desc:'Premium cotton, regular fit',
+  {id:1,name:'Classic White T-Shirt',priceEUR:25,category:'Apparel',desc:'Premium cotton, regular fit',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg',emoji:'👕'},
-  {id:2,name:'Wireless Headphones',priceEUR:19.99,category:'Electronics',desc:'30h battery, noise-cancelling',
+  {id:2,name:'Wireless Headphones',priceEUR:20,category:'Electronics',desc:'30h battery, noise-cancelling',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/61IBBVJvSDL._AC_SY879_.jpg',emoji:'🎧'},
-  {id:3,name:'Gold Chain Bracelet',priceEUR:14.99,category:'Jewellery',desc:'Rose gold plated, adjustable',
+  {id:3,name:'Gold Chain Bracelet',priceEUR:15,category:'Jewellery',desc:'Rose gold plated, adjustable',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg',emoji:'📿'},
-  {id:4,name:'Running Sneakers',priceEUR:35.99,category:'Footwear',desc:'Lightweight, breathable mesh',
+  {id:4,name:'Running Sneakers',priceEUR:36,category:'Footwear',desc:'Lightweight, breathable mesh',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71YXzeOuslL._AC_UY879_.jpg',emoji:'👟'},
-  {id:5,name:'Slim Fit Jeans',priceEUR:39.99,category:'Apparel',desc:'Stretch denim, mid-rise',
+  {id:5,name:'Slim Fit Jeans',priceEUR:40,category:'Apparel',desc:'Stretch denim, mid-rise',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71li-ujtlUL._AC_UX679_.jpg',emoji:'👖'},
-  {id:6,name:'Laptop Backpack',priceEUR:29.99,category:'Bags',desc:'28L, USB charging port',
+  {id:6,name:'Laptop Backpack',priceEUR:30,category:'Bags',desc:'28L, USB charging port',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81fPKd-2AYL._AC_SL1500_.jpg',emoji:'🎒'},
-  {id:7,name:'Smart Watch',priceEUR:149.99,category:'Electronics',desc:'Heart rate, GPS, waterproof',
+  {id:7,name:'Smart Watch',priceEUR:150,category:'Electronics',desc:'Heart rate, GPS, waterproof',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/61mtL65D4cL._AC_SX679_.jpg',emoji:'⌚'},
-  {id:8,name:'Leather Wallet',priceEUR:18.99,category:'Accessories',desc:'Full-grain leather, RFID block',
+  {id:8,name:'Leather Wallet',priceEUR:19,category:'Accessories',desc:'Full-grain leather, RFID block',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/71z3kpMAYsL._AC_UY879_.jpg',emoji:'👛'},
-  {id:9,name:'Luxury Handbag',priceEUR:499.99,category:'Luxury',desc:'Italian leather, gold hardware',
+  {id:9,name:'Luxury Handbag',priceEUR:500,category:'Luxury',desc:'Italian leather, gold hardware',
    img:'https://raw.githubusercontent.com/keikaavousi/fake-store-api/master/public/img/81XH0e8fefL._AC_UY879_.jpg',emoji:'👜'}
 ];
 
@@ -502,8 +502,7 @@ async function initPayment(){
   statusEl.className='init-status loading';statusText.textContent='Calling payment/create API…';
 
   const c=currentCurrency;
-  const rawAmount=convert(getTotalEUR());
-  const amount=rawAmount%1===0?String(Math.round(rawAmount)):rawAmount.toFixed(2);
+  const amount=String(Math.round(convert(getTotalEUR())));
   const shopTxId='ORDER'+Date.now();
   let paymentId,paymentToken,isRealToken=false;
 
@@ -553,21 +552,15 @@ async function initPayment(){
     wrap.appendChild(notice);
   }
 
-  /* Вставляем <fbk-checkout> через innerHTML с реальными значениями токенов
-     Это единственный правильный способ — компонент должен получить
-     payment-id и payment-token сразу при создании элемента */
+  /* Вставляем <fbk-card> через innerHTML с реальными значениями токенов */
   const container = document.createElement('div');
-  container.innerHTML = `<fbk-checkout
+  container.innerHTML = `<fbk-card
     payment-id="${paymentId}"
     payment-token="${paymentToken}"
-    layout="horizontal"
-    apple-button-style="black"
-    apple-button-type="plain"
-    google-button-style="black"
-    google-button-type="plain">
-  </fbk-checkout>`;
+    layout="horizontal">
+  </fbk-card>`;
   wrap.appendChild(container.firstElementChild);
-  console.log('fbk-checkout injected:', {paymentId, paymentToken});
+  console.log('fbk-card injected:', {paymentId, paymentToken});
 }
 
 window.addEventListener('fbk-elements-error',e=>{

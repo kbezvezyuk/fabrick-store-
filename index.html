@@ -545,17 +545,25 @@ async function initPayment(){
     ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
     :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
 
-  // Инициализируем shop перед вставкой компонента
-  if (window['fbk-elements']?.shop) {
-    window['fbk-elements'].shop({ shopLogin: SHOP_LOGIN });
-    console.log('fbk-elements.shop initialized');
-  } else {
-    console.warn('fbk-elements.shop not available');
-  }
+  // 1. Устанавливаем window['fbk-elements'] ДО вставки компонента
+  window['fbk-elements'] = {
+    shop: SHOP_LOGIN
+  };
 
-  // Полностью очищаем wrap и вставляем ТОЛЬКО fbk-checkout
-  wrap.innerHTML = `<fbk-checkout shoplogin="${SHOP_LOGIN}" payment-id="${paymentId}" payment-token="${paymentToken}" layout="horizontal" apple-button-style="black" apple-button-type="plain" google-button-style="black" google-button-type="plain"></fbk-checkout>`;
-  console.log('fbk-checkout injected:', {paymentId, paymentToken});
+  // 2. Вставляем элемент в DOM
+  wrap.innerHTML = '<fbk-checkout id="fbk-checkout-el" style="width:100%"></fbk-checkout>';
+
+  // 3. Устанавливаем атрибуты через setAttribute — как в документации
+  const el = document.getElementById('fbk-checkout-el');
+  el.setAttribute('payment-id', paymentId);
+  el.setAttribute('payment-token', paymentToken);
+  el.setAttribute('layout', 'horizontal');
+  el.setAttribute('apple-button-style', 'black');
+  el.setAttribute('apple-button-type', 'pay');
+  el.setAttribute('google-button-style', 'black');
+  el.setAttribute('google-button-type', 'pay');
+
+  console.log('fbk-checkout ready:', {shop: SHOP_LOGIN, paymentId, paymentToken});
 }
 
 window.addEventListener('fbk-elements-ready', e => {
@@ -568,17 +576,6 @@ window.addEventListener('fbk-elements-error', e => {
   document.getElementById('error-toast-title').textContent=e.detail?.title||'Error';
   document.getElementById('error-toast-msg').textContent=e.detail?.message||'';
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),5000);
-});
-
-window.addEventListener('fbk-payment-method-selected', e => {
-  console.log('METHOD', e.detail);
-});
-
-window.addEventListener('fbk-payment-complete', e => {
-  console.log('COMPLETE', e.detail);
-  const{paymentID}=e.detail||{};
-  document.getElementById('modal-txid').textContent=`Transaction ID: ${paymentID||currentPaymentId}`;
-  document.getElementById('success-modal').classList.add('open');
 });
 
 renderProducts();

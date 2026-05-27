@@ -545,6 +545,14 @@ async function initPayment(){
     ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
     :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
 
+  // Инициализируем shop перед вставкой компонента
+  if (window['fbk-elements']?.shop) {
+    window['fbk-elements'].shop({ shopLogin: SHOP_LOGIN });
+    console.log('fbk-elements.shop initialized');
+  } else {
+    console.warn('fbk-elements.shop not available');
+  }
+
   // Полностью очищаем wrap и вставляем ТОЛЬКО fbk-checkout
   wrap.innerHTML = `<fbk-checkout payment-id="${paymentId}" payment-token="${paymentToken}" layout="horizontal" apple-button-style="black" apple-button-type="plain" google-button-style="black" google-button-type="plain"></fbk-checkout>`;
   console.log('fbk-checkout injected:', {paymentId, paymentToken});

@@ -80,17 +80,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .checkout-layout{max-width:1060px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
 .breadcrumb-back{background:white;border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-size:0.82rem;font-weight:500;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:20px;transition:var(--transition);font-family:inherit}
 .breadcrumb-back:hover{border-color:var(--primary);color:var(--primary)}
-.checkout-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.checkout-card{background:white;border-radius:var(--radius);border:1px solid var(--border)}
 .checkout-card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
 .checkout-card-icon{width:34px;height:34px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-size:0.95rem}
 .checkout-card-title{font-size:0.95rem;font-weight:600}
-.checkout-card-body{padding:22px}
-.payment-component-wrap{min-height:80px}
-fbk-card, fbk-checkout, fbk-card-wallet {
-  display:block;
-  width:100%;
-  min-height:300px;
-}
+.checkout-card-body{padding:22px;overflow:visible}
+.payment-component-wrap{min-height:80px;overflow:visible}
+fbk-card,fbk-checkout,fbk-card-wallet{display:block;width:100%;min-height:400px;overflow:visible}
 .payment-loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:36px;color:var(--text-muted);font-size:0.85rem}
 .spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}

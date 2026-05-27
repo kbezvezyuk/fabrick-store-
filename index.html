@@ -538,33 +538,16 @@ async function initPayment(){
   }
 
   currentPaymentId=paymentId;currentPaymentToken=paymentToken;
+  loadingEl.style.display='none';
+  statusEl.style.display='flex';
   statusEl.className=isRealToken?'init-status success':'init-status demo';
   statusText.textContent=isRealToken
     ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
     :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
-  loadingEl.style.display='none';
-  wrap.querySelector('.demo-notice')?.remove();
 
-  if(!isRealToken){
-    const notice=document.createElement('div');
-    notice.className='demo-notice';
-    notice.style.cssText='background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:0.8rem;color:#92400E';
-    notice.innerHTML='⚠️ Demo mode — Cloudflare Worker не ответил.';
-    wrap.appendChild(notice);
-  }
-
-  // Вставляем через innerHTML — так Angular обрабатывает атрибуты при парсинге HTML
-  // а не через setAttribute после регистрации элемента
-  wrap.innerHTML += `<fbk-checkout
-    payment-id="${paymentId}"
-    payment-token="${paymentToken}"
-    layout="horizontal"
-    apple-button-style="black"
-    apple-button-type="plain"
-    google-button-style="black"
-    google-button-type="plain">
-  </fbk-checkout>`;
-  console.log('fbk-checkout injected via innerHTML:', {paymentId, paymentToken});
+  // Полностью очищаем wrap и вставляем ТОЛЬКО fbk-checkout
+  wrap.innerHTML = `<fbk-checkout payment-id="${paymentId}" payment-token="${paymentToken}" layout="horizontal" apple-button-style="black" apple-button-type="plain" google-button-style="black" google-button-type="plain"></fbk-checkout>`;
+  console.log('fbk-checkout injected:', {paymentId, paymentToken});
 }
 
 window.addEventListener('fbk-elements-ready', e => {

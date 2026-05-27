@@ -6,7 +6,7 @@
 <title>Fabrick Store</title>
 <script 
   src="https://sandbox-web.axerve.com/orchestra/checkout/assets/elements/fbk-elements.js"
-  onload="console.log('✅ fbk-elements.js loaded successfully')"
+  onload="console.log('✅ fbk-elements.js loaded'); window['fbk-elements'] = window['fbk-elements'] || {}; window['fbk-elements'].shop = 'GESPAY98588'; console.log('✅ shop set:', window['fbk-elements'].shop);"
   onerror="console.error('❌ fbk-elements.js FAILED to load')">
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -545,10 +545,7 @@ async function initPayment(){
     ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
     :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
 
-  // 1. Устанавливаем window['fbk-elements'] ДО вставки компонента
-  window['fbk-elements'] = {
-    shop: SHOP_LOGIN
-  };
+  // window['fbk-elements'].shop уже установлен в onload скрипта
 
   // 2. Вставляем элемент в DOM
   wrap.innerHTML = '<fbk-checkout id="fbk-checkout-el" style="width:100%"></fbk-checkout>';

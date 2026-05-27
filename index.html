@@ -553,25 +553,32 @@ async function initPayment(){
     wrap.appendChild(notice);
   }
 
-  /* Вставляем <fbk-card> через innerHTML с реальными значениями токенов */
-  const container = document.createElement('div');
-  container.innerHTML = `<fbk-card
-    payment-id="${paymentId}"
-    payment-token="${paymentToken}"
-    layout="horizontal">
-  </fbk-card>`;
-  wrap.appendChild(container.firstElementChild);
+  const fbk = document.createElement('fbk-card');
+  fbk.paymentId = paymentId;
+  fbk.paymentToken = paymentToken;
+  fbk.layout = 'horizontal';
+  wrap.appendChild(fbk);
   console.log('fbk-card injected:', {paymentId, paymentToken});
 }
 
-window.addEventListener('fbk-elements-error',e=>{
-  const{title,message}=e.detail||{};
+window.addEventListener('fbk-elements-ready', e => {
+  console.log('READY', e.detail);
+});
+
+window.addEventListener('fbk-elements-error', e => {
+  console.log('ERROR', e.detail);
   const t=document.getElementById('error-toast');
-  document.getElementById('error-toast-title').textContent=title||'Error';
-  document.getElementById('error-toast-msg').textContent=message||'';
+  document.getElementById('error-toast-title').textContent=e.detail?.title||'Error';
+  document.getElementById('error-toast-msg').textContent=e.detail?.message||'';
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),5000);
 });
-window.addEventListener('fbk-payment-complete',e=>{
+
+window.addEventListener('fbk-payment-method-selected', e => {
+  console.log('METHOD', e.detail);
+});
+
+window.addEventListener('fbk-payment-complete', e => {
+  console.log('COMPLETE', e.detail);
   const{paymentID}=e.detail||{};
   document.getElementById('modal-txid').textContent=`Transaction ID: ${paymentID||currentPaymentId}`;
   document.getElementById('success-modal').classList.add('open');

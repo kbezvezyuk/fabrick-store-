@@ -257,15 +257,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
               <div class="spinner"></div>
               Initializing payment...
             </div>
-            <!-- fbk-checkout статично в HTML, атрибуты обновляются через JS -->
-            <fbk-checkout
-              id="fbk-checkout-el"
-              layout="horizontal"
-              apple-button-style="black"
-              apple-button-type="plain"
-              google-button-style="black"
-              google-button-type="plain">
-            </fbk-checkout>
+            <!-- fbk-checkout вставляется через innerHTML ПОСЛЕ получения токенов -->
           </div>
           <div id="init-status" class="init-status loading" style="display:none">
             <div class="status-dot"></div>
@@ -561,13 +553,21 @@ async function initPayment(){
     wrap.appendChild(notice);
   }
 
-  /* <fbk-checkout> — сначала показываем, потом устанавливаем атрибуты
-     Web Components не инициализируются если скрыты через display:none */
-  const fbk = document.getElementById('fbk-checkout-el');
-  fbk.style.display = 'block';
-  fbk.setAttribute('payment-id', paymentId);
-  fbk.setAttribute('payment-token', paymentToken);
-  console.log('fbk-checkout attrs set:', {paymentId, paymentToken});
+  /* Вставляем <fbk-checkout> через innerHTML с реальными значениями токенов
+     Это единственный правильный способ — компонент должен получить
+     payment-id и payment-token сразу при создании элемента */
+  const container = document.createElement('div');
+  container.innerHTML = `<fbk-checkout
+    payment-id="${paymentId}"
+    payment-token="${paymentToken}"
+    layout="horizontal"
+    apple-button-style="black"
+    apple-button-type="plain"
+    google-button-style="black"
+    google-button-type="plain">
+  </fbk-checkout>`;
+  wrap.appendChild(container.firstElementChild);
+  console.log('fbk-checkout injected:', {paymentId, paymentToken});
 }
 
 window.addEventListener('fbk-elements-error',e=>{

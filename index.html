@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,8 +145,22 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
 .lang-btn:hover:not(.active){background:var(--border)}
 .currency-changed{animation:chipPop .35s ease}
 @keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+
+/* ── PDP ── */
+.pdp-wrap{max-width:1000px;margin:0 auto;padding:24px 24px 80px}
+.pdp-wrap .breadcrumb-back{text-decoration:none;width:fit-content}
+.pdp-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+.pdp-img{background:#fff;border:1px solid var(--border);border-radius:var(--radius);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pdp-img img{width:100%;height:100%;object-fit:contain;padding:32px}
+.pdp-cat{font-size:.72rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.pdp-info h1{font-size:1.6rem;font-weight:700;line-height:1.25;margin-bottom:10px}
+.pdp-price{font-size:1.5rem;font-weight:700;margin-bottom:14px}
+.pdp-desc{font-size:.92rem;color:var(--text-muted);line-height:1.6;margin-bottom:24px}
+.pdp-apple{margin-top:10px;min-height:44px}
+fbk-apple-pay{display:block;width:100%}
+
 @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.products-grid{grid-template-columns:repeat(2,1fr)}.checkout-layout{grid-template-columns:1fr}.order-summary{position:static;order:-1}.footer-inner{flex-direction:column;align-items:flex-start;gap:12px}}
+@media(max-width:800px){.products-grid{grid-template-columns:repeat(2,1fr)}.checkout-layout{grid-template-columns:1fr}.order-summary{position:static;order:-1}.footer-inner{flex-direction:column;align-items:flex-start;gap:12px}.pdp-grid{grid-template-columns:1fr;gap:20px}}
 @media(max-width:480px){.products-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -172,13 +187,37 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
       </div>
     </div>
   </nav>
-  <div class="page-header">
+
+  <!-- PLP -->
+  <div class="page-header" id="plp-header">
     <h1 id="page-title">All Products</h1>
     <span id="page-count">9 products</span>
   </div>
-  <main class="main">
+  <main class="main" id="plp-main">
     <div class="products-grid" id="products-grid"></div>
   </main>
+
+  <!-- PDP -->
+  <div id="pdp-view" style="display:none">
+    <div class="pdp-wrap">
+      <a class="breadcrumb-back" id="pdp-back" href="#">← All products</a>
+      <div class="pdp-grid">
+        <div class="pdp-img"><img id="pdp-img" alt="" onerror="this.style.display='none'"></div>
+        <div class="pdp-info">
+          <div class="pdp-cat" id="pdp-cat"></div>
+          <h1 id="pdp-name"></h1>
+          <div class="pdp-price" id="pdp-price"></div>
+          <p class="pdp-desc" id="pdp-desc"></p>
+          <button class="checkout-btn" id="pdp-add" onclick="pdpAdd()">Add to cart</button>
+          <div class="pdp-apple" id="pdp-apple"></div>
+          <div id="pdp-apple-status" class="init-status loading" style="display:none">
+            <div class="status-dot"></div><span id="pdp-apple-status-text"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -266,7 +305,7 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
               <div class="spinner"></div>
               Initializing payment...
             </div>
-            <!-- fbk-checkout вставляется через innerHTML ПОСЛЕ получения токенов -->
+            <!-- fbk-checkout is inserted via innerHTML AFTER tokens are received -->
           </div>
           <div id="init-status" class="init-status loading" style="display:none">
             <div class="status-dot"></div>
@@ -399,6 +438,8 @@ const TRANSLATIONS = {
     add: '+ Add',
     added: '✓ Added',
     initApi: 'Calling payment/create API…',
+    addToCart: 'Add to cart',
+    backToAll: '← All products',
   },
   IT: {
     allProducts: 'Tutti i Prodotti',
@@ -421,6 +462,8 @@ const TRANSLATIONS = {
     add: '+ Aggiungi',
     added: '✓ Aggiunto',
     initApi: 'Chiamata API payment/create…',
+    addToCart: 'Aggiungi al carrello',
+    backToAll: '← Tutti i prodotti',
   }
 };
 
@@ -506,10 +549,12 @@ const saveCart=()=>localStorage.setItem('fbk_cart',JSON.stringify(cart));
 const getTotalEUR=()=>cart.reduce((s,i)=>s+i.priceEUR*i.qty,0);
 const getCount=()=>cart.reduce((s,i)=>s+i.qty,0);
 
+let pdpId=null,pdpKey=null,pdpSeq=0;
+
 function renderProducts(){
   const products = getProducts();
   document.getElementById('products-grid').innerHTML=products.map(p=>`
-    <div class="product-card">
+    <div class="product-card" onclick="location.hash='product-${p.id}'">
       <div class="product-img">
         <img src="${p.img}" alt="${p.name}" loading="lazy"
           onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem\\'>${p.emoji}</div>'">
@@ -520,10 +565,11 @@ function renderProducts(){
         <div class="product-desc">${p.desc}</div>
         <div class="product-footer">
           <div class="product-price">${fmt(p.priceEUR)}</div>
-          <button class="add-to-cart" id="btn-${p.id}" onclick="addToCart(${p.id})">${t('add')}</button>
+          <button class="add-to-cart" id="btn-${p.id}" onclick="event.stopPropagation();addToCart(${p.id})">${t('add')}</button>
         </div>
       </div>
     </div>`).join('');
+  if(pdpId!==null)renderPDP(getProducts().find(x=>x.id===pdpId));
 }
 
 function addToCart(id){
@@ -597,13 +643,46 @@ function renderOrderSummary(){
 }
 
 /* ══ PAYMENT INIT ══
-   PROXY_URL = Cloudflare Worker для обхода CORS
-   URL обновлён на реальный задеплоенный воркер
+   PROXY_URL = Cloudflare Worker (bypasses CORS)
 */
 const SHOP_LOGIN='GESPAY98588';
 const PROXY_URL='https://jolly-band-1960.kbezvezyuk.workers.dev';
 
 let currentPaymentId=null,currentPaymentToken=null;
+
+// Creates a payment through the proxy and returns tokens (falls back to DEMO tokens on failure)
+async function createPayment(totalEUR,prefix){
+  const amount=String(Math.round(convert(totalEUR)));
+  let paymentId,paymentToken,real=false;
+  try{
+    const res=await fetch(PROXY_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        shopLogin:SHOP_LOGIN,
+        amount:amount,
+        currency:currentCurrency.code,
+        shopTransactionID:(prefix||'ORDER')+Date.now()
+      })
+    });
+    if(res.ok){
+      const d=await res.json();
+      const p=d.payload||d;
+      paymentId=p.paymentID||p.paymentId||p.PaymentID;
+      paymentToken=p.paymentToken||p.PaymentToken;
+      real=!!(paymentId&&paymentToken);
+    }else{
+      console.warn('Proxy error:',res.status,await res.text());
+    }
+  }catch(err){
+    console.warn('Proxy call failed:',err.message);
+  }
+  if(!real){
+    paymentId='DEMO-'+Date.now();
+    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
+  }
+  return {paymentId,paymentToken,real,amount,currency:currentCurrency.code};
+}
 
 async function initPayment(){
   const wrap=document.getElementById('payment-component-wrap');
@@ -613,65 +692,106 @@ async function initPayment(){
   loadingEl.style.display='flex';statusEl.style.display='flex';
   statusEl.className='init-status loading';statusText.textContent='Calling payment/create API…';
 
-  const c=currentCurrency;
-  const amount=String(Math.round(convert(getTotalEUR())));
-  const shopTxId='ORDER'+Date.now();
-  let paymentId,paymentToken,isRealToken=false;
+  const pay=await createPayment(getTotalEUR(),'ORDER');
+  currentPaymentId=pay.paymentId;currentPaymentToken=pay.paymentToken;
 
-  try{
-    const res=await fetch(PROXY_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        shopLogin:SHOP_LOGIN,
-        amount:amount,
-        currency:c.code,
-        shopTransactionID:shopTxId
-      })
-    });
-    if(res.ok){
-      const d=await res.json();
-      const payload=d.payload||d;
-      paymentId=payload.paymentID||payload.paymentId||payload.PaymentID;
-      paymentToken=payload.paymentToken||payload.PaymentToken;
-      if(paymentId&&paymentToken)isRealToken=true;
-    }else{
-      const errText=await res.text();
-      console.warn('Proxy error:',res.status,errText);
-    }
-  }catch(err){
-    console.warn('Proxy call failed:',err.message);
-  }
-
-  if(!isRealToken){
-    paymentId='DEMO-'+Date.now();
-    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
-  }
-
-  currentPaymentId=paymentId;currentPaymentToken=paymentToken;
   loadingEl.style.display='none';
   statusEl.style.display='flex';
-  statusEl.className=isRealToken?'init-status success':'init-status demo';
-  statusText.textContent=isRealToken
-    ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
-    :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
+  statusEl.className=pay.real?'init-status success':'init-status demo';
+  statusText.textContent=pay.real
+    ?`✓ Initialized · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`
+    :`Demo mode · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`;
 
-  // window['fbk-elements'].shop уже установлен в onload скрипта
+  // window['fbk-elements'].shop is already set in the script's onload
 
-  // 2. Вставляем элемент в DOM
   wrap.innerHTML = '<fbk-checkout id="fbk-checkout-el" style="width:100%"></fbk-checkout>';
 
-  // 3. Устанавливаем атрибуты через setAttribute — как в документации
   const el = document.getElementById('fbk-checkout-el');
-  el.setAttribute('payment-id', paymentId);
-  el.setAttribute('payment-token', paymentToken);
+  el.setAttribute('payment-id', pay.paymentId);
+  el.setAttribute('payment-token', pay.paymentToken);
   el.setAttribute('layout', 'horizontal');
   el.setAttribute('apple-button-style', 'black');
   el.setAttribute('apple-button-type', 'pay');
   el.setAttribute('google-button-style', 'black');
   el.setAttribute('google-button-type', 'pay');
 
-  console.log('fbk-checkout ready:', {shop: SHOP_LOGIN, paymentId, paymentToken});
+  console.log('fbk-checkout ready:', {shop: SHOP_LOGIN, paymentId:pay.paymentId, paymentToken:pay.paymentToken});
+}
+
+/* ══ PDP (product detail page) ══ */
+function showPDP(id){
+  const p=getProducts().find(x=>x.id===id);
+  if(!p){location.hash='';return}
+  pdpId=id;
+  document.getElementById('plp-header').style.display='none';
+  document.getElementById('plp-main').style.display='none';
+  document.getElementById('pdp-view').style.display='block';
+  window.scrollTo(0,0);
+  renderPDP(p);
+}
+function showPLP(){
+  pdpId=null;pdpKey=null;pdpSeq++;
+  document.getElementById('pdp-apple').innerHTML='';
+  document.getElementById('pdp-apple-status').style.display='none';
+  document.getElementById('pdp-view').style.display='none';
+  document.getElementById('plp-header').style.display='';
+  document.getElementById('plp-main').style.display='';
+  document.title='Fabrick Store';
+}
+function route(){
+  const m=location.hash.match(/^#product-(\d+)$/);
+  m?showPDP(+m[1]):showPLP();
+}
+window.addEventListener('hashchange',route);
+
+function renderPDP(p){
+  if(!p)return;
+  const img=document.getElementById('pdp-img');
+  img.style.display='';img.src=p.img;img.alt=p.name;
+  document.getElementById('pdp-cat').textContent=p.category;
+  document.getElementById('pdp-name').textContent=p.name;
+  document.getElementById('pdp-price').textContent=fmt(p.priceEUR);
+  document.getElementById('pdp-desc').textContent=p.desc;
+  document.getElementById('pdp-add').textContent=t('addToCart');
+  document.getElementById('pdp-back').textContent=t('backToAll');
+  document.title=p.name+' · Fabrick Store';
+  mountPdpApplePay(p);
+}
+
+function pdpAdd(){
+  if(pdpId===null)return;
+  addToCart(pdpId);
+  const b=document.getElementById('pdp-add');
+  b.textContent=t('added');
+  setTimeout(()=>{b.textContent=t('addToCart')},1200);
+}
+
+async function mountPdpApplePay(p){
+  // Recreate the payment only if the product, currency or amount changed
+  const key=p.id+'|'+currentCurrency.code+'|'+Math.round(convert(p.priceEUR));
+  if(key===pdpKey)return;
+  pdpKey=key;
+  const seq=++pdpSeq;
+  const slot=document.getElementById('pdp-apple');
+  const st=document.getElementById('pdp-apple-status');
+  slot.innerHTML='<div class="payment-loading" style="padding:12px"><div class="spinner"></div></div>';
+  st.style.display='none';
+
+  const pay=await createPayment(p.priceEUR,'PDP');
+  if(seq!==pdpSeq)return; // user left the page or changed currency meanwhile
+
+  slot.innerHTML='<fbk-apple-pay id="fbk-apple-el"></fbk-apple-pay>';
+  const el=document.getElementById('fbk-apple-el');
+  el.setAttribute('payment-id',pay.paymentId);
+  el.setAttribute('payment-token',pay.paymentToken);
+  // ↓ check these attribute names against the <fbk-apple-pay> documentation
+  el.setAttribute('apple-button-style','black');
+  el.setAttribute('apple-button-type','buy');
+
+  st.style.display='flex';
+  st.className=pay.real?'init-status success':'init-status demo';
+  document.getElementById('pdp-apple-status-text').textContent=
+    (pay.real?'✓ Initialized':'Demo mode')+` · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`;
 }
 
 window.addEventListener('fbk-elements-ready', e => {
@@ -688,6 +808,7 @@ window.addEventListener('fbk-elements-error', e => {
 
 renderProducts();
 updateCartUI();
+route();
 </script>
 </body>
 </html>

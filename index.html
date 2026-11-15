@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fabrick Store</title>
-<script 
+<script
   src="https://sandbox-web.axerve.com/orchestra/checkout/assets/elements/fbk-elements.js"
   onload="console.log('✅ fbk-elements.js loaded'); window['fbk-elements'] = window['fbk-elements'] || {}; window['fbk-elements'].shop = 'GESPAY98588'; console.log('✅ shop set:', window['fbk-elements'].shop);"
   onerror="console.error('❌ fbk-elements.js FAILED to load')">
@@ -145,22 +145,26 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
 .lang-btn:hover:not(.active){background:var(--border)}
 .currency-changed{animation:chipPop .35s ease}
 @keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
-
-/* ── PDP ── */
-.pdp-wrap{max-width:1000px;margin:0 auto;padding:24px 24px 80px}
-.pdp-wrap .breadcrumb-back{text-decoration:none;width:fit-content}
-.pdp-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
-.pdp-img{background:#fff;border:1px solid var(--border);border-radius:var(--radius);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pdp-img img{width:100%;height:100%;object-fit:contain;padding:32px}
-.pdp-cat{font-size:.72rem;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.pdp-info h1{font-size:1.6rem;font-weight:700;line-height:1.25;margin-bottom:10px}
-.pdp-price{font-size:1.5rem;font-weight:700;margin-bottom:14px}
-.pdp-desc{font-size:.92rem;color:var(--text-muted);line-height:1.6;margin-bottom:24px}
-.pdp-apple{margin-top:10px;min-height:44px}
-fbk-apple-pay{display:block;width:100%}
-
+#pdp-page{display:none;min-height:100vh;background:var(--bg)}
+#pdp-page.active{display:block}
+.pdp-layout{max-width:1060px;margin:0 auto;padding:12px 24px 80px;display:grid;grid-template-columns:440px 1fr;gap:40px;align-items:start}
+.pdp-image{background:#fff;border:1px solid var(--border);border-radius:var(--radius);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pdp-image img{width:100%;height:100%;object-fit:contain;padding:32px;display:block}
+.pdp-category{font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em}
+.pdp-name{font-size:1.5rem;font-weight:700;margin:6px 0 10px;line-height:1.3}
+.pdp-price{font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:14px}
+.pdp-desc{color:var(--text-muted);font-size:0.9rem;line-height:1.6;margin-bottom:22px}
+.pdp-qty-row{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.pdp-qty-row .qty-btn{width:30px;height:30px}
+.pdp-qty-row .qty-num{font-size:0.95rem;min-width:20px}
+.pdp-add-btn{width:100%;padding:13px;font-size:0.92rem;border-radius:9px;margin-bottom:20px}
+.pdp-divider{display:flex;align-items:center;gap:10px;margin:4px 0 16px;color:var(--text-light);font-size:0.75rem;text-transform:uppercase;letter-spacing:.04em}
+.pdp-divider::before,.pdp-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.pdp-applepay-wrap{min-height:48px}
+.pdp-payment-loading{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:0.82rem;padding:10px 0}
+@media(max-width:760px){.pdp-layout{grid-template-columns:1fr}}
 @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:800px){.products-grid{grid-template-columns:repeat(2,1fr)}.checkout-layout{grid-template-columns:1fr}.order-summary{position:static;order:-1}.footer-inner{flex-direction:column;align-items:flex-start;gap:12px}.pdp-grid{grid-template-columns:1fr;gap:20px}}
+@media(max-width:800px){.products-grid{grid-template-columns:repeat(2,1fr)}.checkout-layout{grid-template-columns:1fr}.order-summary{position:static;order:-1}.footer-inner{flex-direction:column;align-items:flex-start;gap:12px}}
 @media(max-width:480px){.products-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -187,37 +191,13 @@ fbk-apple-pay{display:block;width:100%}
       </div>
     </div>
   </nav>
-
-  <!-- PLP -->
-  <div class="page-header" id="plp-header">
+  <div class="page-header">
     <h1 id="page-title">All Products</h1>
     <span id="page-count">9 products</span>
   </div>
-  <main class="main" id="plp-main">
+  <main class="main">
     <div class="products-grid" id="products-grid"></div>
   </main>
-
-  <!-- PDP -->
-  <div id="pdp-view" style="display:none">
-    <div class="pdp-wrap">
-      <a class="breadcrumb-back" id="pdp-back" href="#">← All products</a>
-      <div class="pdp-grid">
-        <div class="pdp-img"><img id="pdp-img" alt="" onerror="this.style.display='none'"></div>
-        <div class="pdp-info">
-          <div class="pdp-cat" id="pdp-cat"></div>
-          <h1 id="pdp-name"></h1>
-          <div class="pdp-price" id="pdp-price"></div>
-          <p class="pdp-desc" id="pdp-desc"></p>
-          <button class="checkout-btn" id="pdp-add" onclick="pdpAdd()">Add to cart</button>
-          <div class="pdp-apple" id="pdp-apple"></div>
-          <div id="pdp-apple-status" class="init-status loading" style="display:none">
-            <div class="status-dot"></div><span id="pdp-apple-status-text"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -305,7 +285,7 @@ fbk-apple-pay{display:block;width:100%}
               <div class="spinner"></div>
               Initializing payment...
             </div>
-            <!-- fbk-checkout is inserted via innerHTML AFTER tokens are received -->
+            <!-- fbk-checkout вставляется через innerHTML ПОСЛЕ получения токенов -->
           </div>
           <div id="init-status" class="init-status loading" style="display:none">
             <div class="status-dot"></div>
@@ -324,6 +304,50 @@ fbk-apple-pay{display:block;width:100%}
           <div class="order-line total"><span id="total-label">Total</span><span id="summary-total">€0</span></div>
         </div>
         <div class="secure-badge"><span>🔒</span><span id="secure-badge-text">Secured by Fabrick · PCI DSS compliant</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="pdp-page">
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="logo" href="#">
+        <svg height="24" viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text y="20" font-family="'Inter','Arial Black',sans-serif" font-weight="800" font-size="22" fill="#0047AB" letter-spacing="-0.8">fabrick</text>
+          <circle cx="45" cy="23.2" r="2.2" fill="#0047AB"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+  <div class="pdp-layout">
+    <div style="grid-column:1/-1">
+      <button class="breadcrumb-back" id="pdp-back-btn" onclick="goBackToShop()">← Continue Shopping</button>
+    </div>
+    <div class="pdp-image">
+      <img id="pdp-img" src="" alt="">
+    </div>
+    <div>
+      <div class="pdp-category" id="pdp-category"></div>
+      <h1 class="pdp-name" id="pdp-name"></h1>
+      <div class="pdp-price" id="pdp-price"></div>
+      <p class="pdp-desc" id="pdp-desc"></p>
+      <div class="pdp-qty-row">
+        <button class="qty-btn" onclick="changePdpQty(-1)">−</button>
+        <span class="qty-num" id="pdp-qty-num">1</span>
+        <button class="qty-btn" onclick="changePdpQty(1)">+</button>
+      </div>
+      <button class="add-to-cart pdp-add-btn" id="pdp-add-btn" onclick="addToCartFromPDP()">Add to Cart</button>
+      <div class="pdp-divider" id="pdp-divider">or</div>
+      <div class="pdp-applepay-wrap" id="pdp-applepay-component-wrap">
+        <div class="pdp-payment-loading">
+          <div class="spinner"></div>
+          Initializing Apple Pay…
+        </div>
+      </div>
+      <div id="pdp-init-status" class="init-status loading" style="display:none">
+        <div class="status-dot"></div>
+        <span id="pdp-init-status-text">Calling payment/create API…</span>
       </div>
     </div>
   </div>
@@ -438,8 +462,10 @@ const TRANSLATIONS = {
     add: '+ Add',
     added: '✓ Added',
     initApi: 'Calling payment/create API…',
-    addToCart: 'Add to cart',
-    backToAll: '← All products',
+    addToCartBtn: 'Add to Cart',
+    addedToCartBtn: '✓ Added to Cart',
+    orDivider: 'or',
+    initApplePay: 'Initializing Apple Pay…',
   },
   IT: {
     allProducts: 'Tutti i Prodotti',
@@ -462,8 +488,10 @@ const TRANSLATIONS = {
     add: '+ Aggiungi',
     added: '✓ Aggiunto',
     initApi: 'Chiamata API payment/create…',
-    addToCart: 'Aggiungi al carrello',
-    backToAll: '← Tutti i prodotti',
+    addToCartBtn: 'Aggiungi al Carrello',
+    addedToCartBtn: '✓ Aggiunto al Carrello',
+    orDivider: 'oppure',
+    initApplePay: 'Inizializzazione di Apple Pay…',
   }
 };
 
@@ -494,6 +522,9 @@ function switchLang(lang) {
   document.getElementById('shipping-value').textContent = t('free');
   document.getElementById('subtotal-label').textContent = t('subtotal');
   document.getElementById('total-label').textContent = t('total');
+  document.getElementById('pdp-back-btn').textContent = t('continueShopping');
+  document.getElementById('pdp-divider').textContent = t('orDivider');
+  if(document.getElementById('pdp-page').classList.contains('active')) renderPDP();
 }
 
 const PRODUCTS_DATA = {
@@ -549,12 +580,10 @@ const saveCart=()=>localStorage.setItem('fbk_cart',JSON.stringify(cart));
 const getTotalEUR=()=>cart.reduce((s,i)=>s+i.priceEUR*i.qty,0);
 const getCount=()=>cart.reduce((s,i)=>s+i.qty,0);
 
-let pdpId=null,pdpKey=null,pdpSeq=0;
-
 function renderProducts(){
   const products = getProducts();
   document.getElementById('products-grid').innerHTML=products.map(p=>`
-    <div class="product-card" onclick="location.hash='product-${p.id}'">
+    <div class="product-card" onclick="openPDP(${p.id})">
       <div class="product-img">
         <img src="${p.img}" alt="${p.name}" loading="lazy"
           onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem\\'>${p.emoji}</div>'">
@@ -569,7 +598,6 @@ function renderProducts(){
         </div>
       </div>
     </div>`).join('');
-  if(pdpId!==null)renderPDP(getProducts().find(x=>x.id===pdpId));
 }
 
 function addToCart(id){
@@ -617,7 +645,7 @@ function updateCartUI(){
 }
 function openCart(){document.getElementById('cart-overlay').classList.add('open');document.getElementById('cart-sidebar').classList.add('open');document.body.style.overflow='hidden'}
 function closeCart(){document.getElementById('cart-overlay').classList.remove('open');document.getElementById('cart-sidebar').classList.remove('open');document.body.style.overflow=''}
-function goBackToShop(){document.getElementById('shop-page').classList.remove('hidden');document.getElementById('checkout-page').classList.remove('active');closeCart()}
+function goBackToShop(){document.getElementById('shop-page').classList.remove('hidden');document.getElementById('checkout-page').classList.remove('active');document.getElementById('pdp-page').classList.remove('active');currentPdpProduct=null;closeCart()}
 function resetStore(){cart=[];saveCart();updateCartUI();document.getElementById('success-modal').classList.remove('open');goBackToShop()}
 
 async function goToCheckout(){
@@ -643,46 +671,13 @@ function renderOrderSummary(){
 }
 
 /* ══ PAYMENT INIT ══
-   PROXY_URL = Cloudflare Worker (bypasses CORS)
+   PROXY_URL = Cloudflare Worker для обхода CORS
+   URL обновлён на реальный задеплоенный воркер
 */
 const SHOP_LOGIN='GESPAY98588';
 const PROXY_URL='https://jolly-band-1960.kbezvezyuk.workers.dev';
 
 let currentPaymentId=null,currentPaymentToken=null;
-
-// Creates a payment through the proxy and returns tokens (falls back to DEMO tokens on failure)
-async function createPayment(totalEUR,prefix){
-  const amount=String(Math.round(convert(totalEUR)));
-  let paymentId,paymentToken,real=false;
-  try{
-    const res=await fetch(PROXY_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        shopLogin:SHOP_LOGIN,
-        amount:amount,
-        currency:currentCurrency.code,
-        shopTransactionID:(prefix||'ORDER')+Date.now()
-      })
-    });
-    if(res.ok){
-      const d=await res.json();
-      const p=d.payload||d;
-      paymentId=p.paymentID||p.paymentId||p.PaymentID;
-      paymentToken=p.paymentToken||p.PaymentToken;
-      real=!!(paymentId&&paymentToken);
-    }else{
-      console.warn('Proxy error:',res.status,await res.text());
-    }
-  }catch(err){
-    console.warn('Proxy call failed:',err.message);
-  }
-  if(!real){
-    paymentId='DEMO-'+Date.now();
-    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
-  }
-  return {paymentId,paymentToken,real,amount,currency:currentCurrency.code};
-}
 
 async function initPayment(){
   const wrap=document.getElementById('payment-component-wrap');
@@ -692,106 +687,180 @@ async function initPayment(){
   loadingEl.style.display='flex';statusEl.style.display='flex';
   statusEl.className='init-status loading';statusText.textContent='Calling payment/create API…';
 
-  const pay=await createPayment(getTotalEUR(),'ORDER');
-  currentPaymentId=pay.paymentId;currentPaymentToken=pay.paymentToken;
+  const c=currentCurrency;
+  const amount=String(Math.round(convert(getTotalEUR())));
+  const shopTxId='ORDER'+Date.now();
+  let paymentId,paymentToken,isRealToken=false;
 
+  try{
+    const res=await fetch(PROXY_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        shopLogin:SHOP_LOGIN,
+        amount:amount,
+        currency:c.code,
+        shopTransactionID:shopTxId
+      })
+    });
+    if(res.ok){
+      const d=await res.json();
+      const payload=d.payload||d;
+      paymentId=payload.paymentID||payload.paymentId||payload.PaymentID;
+      paymentToken=payload.paymentToken||payload.PaymentToken;
+      if(paymentId&&paymentToken)isRealToken=true;
+    }else{
+      const errText=await res.text();
+      console.warn('Proxy error:',res.status,errText);
+    }
+  }catch(err){
+    console.warn('Proxy call failed:',err.message);
+  }
+
+  if(!isRealToken){
+    paymentId='DEMO-'+Date.now();
+    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
+  }
+
+  currentPaymentId=paymentId;currentPaymentToken=paymentToken;
   loadingEl.style.display='none';
   statusEl.style.display='flex';
-  statusEl.className=pay.real?'init-status success':'init-status demo';
-  statusText.textContent=pay.real
-    ?`✓ Initialized · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`
-    :`Demo mode · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`;
+  statusEl.className=isRealToken?'init-status success':'init-status demo';
+  statusText.textContent=isRealToken
+    ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
+    :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
 
-  // window['fbk-elements'].shop is already set in the script's onload
+  // window['fbk-elements'].shop уже установлен в onload скрипта
 
+  // 2. Вставляем элемент в DOM
   wrap.innerHTML = '<fbk-checkout id="fbk-checkout-el" style="width:100%"></fbk-checkout>';
 
+  // 3. Устанавливаем атрибуты через setAttribute — как в документации
   const el = document.getElementById('fbk-checkout-el');
-  el.setAttribute('payment-id', pay.paymentId);
-  el.setAttribute('payment-token', pay.paymentToken);
+  el.setAttribute('payment-id', paymentId);
+  el.setAttribute('payment-token', paymentToken);
   el.setAttribute('layout', 'horizontal');
   el.setAttribute('apple-button-style', 'black');
   el.setAttribute('apple-button-type', 'pay');
   el.setAttribute('google-button-style', 'black');
   el.setAttribute('google-button-type', 'pay');
 
-  console.log('fbk-checkout ready:', {shop: SHOP_LOGIN, paymentId:pay.paymentId, paymentToken:pay.paymentToken});
+  console.log('fbk-checkout ready:', {shop: SHOP_LOGIN, paymentId, paymentToken});
 }
 
-/* ══ PDP (product detail page) ══ */
-function showPDP(id){
+/* ══ PRODUCT DETAIL PAGE (PDP) ══
+   "Apple Pay" qui è un acquisto diretto (buy now) solo per questo prodotto/quantità,
+   indipendente dal carrello: ogni apertura o cambio quantità richiama payment/create
+   con l'importo aggiornato e rimonta <fbk-apple-pay> con il nuovo payment-id/token.
+*/
+let currentPdpProduct=null,pdpQty=1,pdpInitTimer=null;
+
+function openPDP(id){
   const p=getProducts().find(x=>x.id===id);
-  if(!p){location.hash='';return}
-  pdpId=id;
-  document.getElementById('plp-header').style.display='none';
-  document.getElementById('plp-main').style.display='none';
-  document.getElementById('pdp-view').style.display='block';
-  window.scrollTo(0,0);
-  renderPDP(p);
-}
-function showPLP(){
-  pdpId=null;pdpKey=null;pdpSeq++;
-  document.getElementById('pdp-apple').innerHTML='';
-  document.getElementById('pdp-apple-status').style.display='none';
-  document.getElementById('pdp-view').style.display='none';
-  document.getElementById('plp-header').style.display='';
-  document.getElementById('plp-main').style.display='';
-  document.title='Fabrick Store';
-}
-function route(){
-  const m=location.hash.match(/^#product-(\d+)$/);
-  m?showPDP(+m[1]):showPLP();
-}
-window.addEventListener('hashchange',route);
-
-function renderPDP(p){
   if(!p)return;
-  const img=document.getElementById('pdp-img');
-  img.style.display='';img.src=p.img;img.alt=p.name;
-  document.getElementById('pdp-cat').textContent=p.category;
+  currentPdpProduct=p;pdpQty=1;
+  document.getElementById('shop-page').classList.add('hidden');
+  document.getElementById('checkout-page').classList.remove('active');
+  document.getElementById('pdp-page').classList.add('active');
+  renderPDP();
+  initApplePayPDP();
+  window.scrollTo(0,0);
+}
+
+function renderPDP(){
+  const p=currentPdpProduct;if(!p)return;
+  document.getElementById('pdp-img').src=p.img;
+  document.getElementById('pdp-img').alt=p.name;
+  document.getElementById('pdp-category').textContent=p.category;
   document.getElementById('pdp-name').textContent=p.name;
-  document.getElementById('pdp-price').textContent=fmt(p.priceEUR);
   document.getElementById('pdp-desc').textContent=p.desc;
-  document.getElementById('pdp-add').textContent=t('addToCart');
-  document.getElementById('pdp-back').textContent=t('backToAll');
-  document.title=p.name+' · Fabrick Store';
-  mountPdpApplePay(p);
+  document.getElementById('pdp-price').textContent=fmt(p.priceEUR*pdpQty);
+  document.getElementById('pdp-qty-num').textContent=pdpQty;
+  document.getElementById('pdp-add-btn').textContent=t('addToCartBtn');
 }
 
-function pdpAdd(){
-  if(pdpId===null)return;
-  addToCart(pdpId);
-  const b=document.getElementById('pdp-add');
-  b.textContent=t('added');
-  setTimeout(()=>{b.textContent=t('addToCart')},1200);
+function changePdpQty(d){
+  pdpQty=Math.max(1,pdpQty+d);
+  renderPDP();
+  // Debounce: evita di richiamare payment/create a ogni click rapido su +/-
+  clearTimeout(pdpInitTimer);
+  pdpInitTimer=setTimeout(initApplePayPDP,400);
 }
 
-async function mountPdpApplePay(p){
-  // Recreate the payment only if the product, currency or amount changed
-  const key=p.id+'|'+currentCurrency.code+'|'+Math.round(convert(p.priceEUR));
-  if(key===pdpKey)return;
-  pdpKey=key;
-  const seq=++pdpSeq;
-  const slot=document.getElementById('pdp-apple');
-  const st=document.getElementById('pdp-apple-status');
-  slot.innerHTML='<div class="payment-loading" style="padding:12px"><div class="spinner"></div></div>';
-  st.style.display='none';
+function addToCartFromPDP(){
+  if(!currentPdpProduct)return;
+  const id=currentPdpProduct.id;
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty+=pdpQty;else cart.push({...currentPdpProduct,qty:pdpQty});
+  saveCart();updateCartUI();
+  const btn=document.getElementById('pdp-add-btn');
+  btn.classList.add('added');btn.textContent=t('addedToCartBtn');
+  setTimeout(()=>{btn.classList.remove('added');btn.textContent=t('addToCartBtn')},1200);
+  openCart();
+}
 
-  const pay=await createPayment(p.priceEUR,'PDP');
-  if(seq!==pdpSeq)return; // user left the page or changed currency meanwhile
+async function initApplePayPDP(){
+  const p=currentPdpProduct;if(!p)return;
+  const wrap=document.getElementById('pdp-applepay-component-wrap');
+  const statusEl=document.getElementById('pdp-init-status');
+  const statusText=document.getElementById('pdp-init-status-text');
+  wrap.innerHTML=`<div class="pdp-payment-loading"><div class="spinner"></div>${t('initApplePay')}</div>`;
+  statusEl.style.display='flex';statusEl.className='init-status loading';statusText.textContent=t('initApi');
 
-  slot.innerHTML='<fbk-apple-pay id="fbk-apple-el"></fbk-apple-pay>';
-  const el=document.getElementById('fbk-apple-el');
-  el.setAttribute('payment-id',pay.paymentId);
-  el.setAttribute('payment-token',pay.paymentToken);
-  // ↓ check these attribute names against the <fbk-apple-pay> documentation
-  el.setAttribute('apple-button-style','black');
-  el.setAttribute('apple-button-type','buy');
+  const c=currentCurrency;
+  const amount=String(Math.round(convert(p.priceEUR*pdpQty)));
+  const shopTxId='PDP'+Date.now();
+  let paymentId,paymentToken,isRealToken=false;
 
-  st.style.display='flex';
-  st.className=pay.real?'init-status success':'init-status demo';
-  document.getElementById('pdp-apple-status-text').textContent=
-    (pay.real?'✓ Initialized':'Demo mode')+` · ${pay.currency} ${pay.amount} · ID: ${pay.paymentId}`;
+  try{
+    const res=await fetch(PROXY_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        shopLogin:SHOP_LOGIN,
+        amount:amount,
+        currency:c.code,
+        shopTransactionID:shopTxId
+      })
+    });
+    if(res.ok){
+      const d=await res.json();
+      const payload=d.payload||d;
+      paymentId=payload.paymentID||payload.paymentId||payload.PaymentID;
+      paymentToken=payload.paymentToken||payload.PaymentToken;
+      if(paymentId&&paymentToken)isRealToken=true;
+    }else{
+      const errText=await res.text();
+      console.warn('PDP proxy error:',res.status,errText);
+    }
+  }catch(err){
+    console.warn('PDP proxy call failed:',err.message);
+  }
+
+  if(!isRealToken){
+    paymentId='DEMO-'+Date.now();
+    paymentToken='DEMOTOKEN-'+Math.random().toString(36).slice(2,10).toUpperCase();
+  }
+
+  // Se nel frattempo l'utente ha cambiato prodotto o è uscito dalla PDP, scarta questo risultato
+  if(currentPdpProduct!==p)return;
+
+  statusEl.style.display='flex';
+  statusEl.className=isRealToken?'init-status success':'init-status demo';
+  statusText.textContent=isRealToken
+    ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
+    :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
+
+  wrap.innerHTML='<fbk-apple-pay id="fbk-apple-pay-el" style="width:100%"></fbk-apple-pay>';
+
+  // Attributi come da documentazione di <fbk-apple-pay>: payment-id, payment-token, button-style, button-type
+  const el=document.getElementById('fbk-apple-pay-el');
+  el.setAttribute('payment-id',paymentId);
+  el.setAttribute('payment-token',paymentToken);
+  el.setAttribute('button-style','black');
+  el.setAttribute('button-type','buy');
+
+  console.log('fbk-apple-pay ready:',{shop:SHOP_LOGIN,paymentId,paymentToken,amount,qty:pdpQty});
 }
 
 window.addEventListener('fbk-elements-ready', e => {
@@ -808,7 +877,6 @@ window.addEventListener('fbk-elements-error', e => {
 
 renderProducts();
 updateCartUI();
-route();
 </script>
 </body>
 </html>

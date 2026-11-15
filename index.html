@@ -160,7 +160,7 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
 .pdp-add-btn{width:100%;padding:13px;font-size:0.92rem;border-radius:9px;margin-bottom:20px}
 .pdp-divider{display:flex;align-items:center;gap:10px;margin:4px 0 16px;color:var(--text-light);font-size:0.75rem;text-transform:uppercase;letter-spacing:.04em}
 .pdp-divider::before,.pdp-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.pdp-applepay-wrap{min-height:48px}
+.pdp-wallets-wrap{min-height:48px;display:flex;flex-direction:column;gap:10px}
 .pdp-payment-loading{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:0.82rem;padding:10px 0}
 @media(max-width:760px){.pdp-layout{grid-template-columns:1fr}}
 @media(max-width:1100px){.products-grid{grid-template-columns:repeat(3,1fr)}}
@@ -339,10 +339,10 @@ fbk-checkout{display:block;width:100%;min-height:400px;overflow:visible}
       </div>
       <button class="add-to-cart pdp-add-btn" id="pdp-add-btn" onclick="addToCartFromPDP()">Add to Cart</button>
       <div class="pdp-divider" id="pdp-divider">or</div>
-      <div class="pdp-applepay-wrap" id="pdp-applepay-component-wrap">
+      <div class="pdp-wallets-wrap" id="pdp-wallets-wrap">
         <div class="pdp-payment-loading">
           <div class="spinner"></div>
-          Initializing Apple Pay…
+          Initializing wallet buttons…
         </div>
       </div>
       <div id="pdp-init-status" class="init-status loading" style="display:none">
@@ -465,7 +465,7 @@ const TRANSLATIONS = {
     addToCartBtn: 'Add to Cart',
     addedToCartBtn: '✓ Added to Cart',
     orDivider: 'or',
-    initApplePay: 'Initializing Apple Pay…',
+    initWallets: 'Initializing wallet buttons…',
   },
   IT: {
     allProducts: 'Tutti i Prodotti',
@@ -491,7 +491,7 @@ const TRANSLATIONS = {
     addToCartBtn: 'Aggiungi al Carrello',
     addedToCartBtn: '✓ Aggiunto al Carrello',
     orDivider: 'oppure',
-    initApplePay: 'Inizializzazione di Apple Pay…',
+    initWallets: 'Inizializzazione dei pulsanti wallet…',
   }
 };
 
@@ -763,7 +763,7 @@ function openPDP(id){
   document.getElementById('checkout-page').classList.remove('active');
   document.getElementById('pdp-page').classList.add('active');
   renderPDP();
-  initApplePayPDP();
+  initPdpWallets();
   window.scrollTo(0,0);
 }
 
@@ -784,7 +784,7 @@ function changePdpQty(d){
   renderPDP();
   // Debounce: evita di richiamare payment/create a ogni click rapido su +/-
   clearTimeout(pdpInitTimer);
-  pdpInitTimer=setTimeout(initApplePayPDP,400);
+  pdpInitTimer=setTimeout(initPdpWallets,400);
 }
 
 function addToCartFromPDP(){
@@ -799,12 +799,12 @@ function addToCartFromPDP(){
   openCart();
 }
 
-async function initApplePayPDP(){
+async function initPdpWallets(){
   const p=currentPdpProduct;if(!p)return;
-  const wrap=document.getElementById('pdp-applepay-component-wrap');
+  const wrap=document.getElementById('pdp-wallets-wrap');
   const statusEl=document.getElementById('pdp-init-status');
   const statusText=document.getElementById('pdp-init-status-text');
-  wrap.innerHTML=`<div class="pdp-payment-loading"><div class="spinner"></div>${t('initApplePay')}</div>`;
+  wrap.innerHTML=`<div class="pdp-payment-loading"><div class="spinner"></div>${t('initWallets')}</div>`;
   statusEl.style.display='flex';statusEl.className='init-status loading';statusText.textContent=t('initApi');
 
   const c=currentCurrency;
@@ -851,16 +851,26 @@ async function initApplePayPDP(){
     ?`✓ Initialized · ${c.code} ${amount} · ID: ${paymentId}`
     :`Demo mode · ${c.code} ${amount} · ID: ${paymentId}`;
 
-  wrap.innerHTML='<fbk-apple-pay id="fbk-apple-pay-el" style="width:100%"></fbk-apple-pay>';
+  // Stessa sessione (stesso payment-id/payment-token) montata su entrambi i pulsanti wallet:
+  // è un'unica transazione, scelta tra Apple Pay o Google Pay sta al buyer.
+  wrap.innerHTML=
+    '<fbk-apple-pay id="fbk-apple-pay-el" style="width:100%"></fbk-apple-pay>'+
+    '<fbk-google-pay id="fbk-google-pay-el" style="width:100%"></fbk-google-pay>';
 
-  // Attributi come da documentazione di <fbk-apple-pay>: payment-id, payment-token, button-style, button-type
-  const el=document.getElementById('fbk-apple-pay-el');
-  el.setAttribute('payment-id',paymentId);
-  el.setAttribute('payment-token',paymentToken);
-  el.setAttribute('button-style','black');
-  el.setAttribute('button-type','buy');
+  // Attributi come da documentazione: payment-id, payment-token, button-style, button-type
+  const appleEl=document.getElementById('fbk-apple-pay-el');
+  appleEl.setAttribute('payment-id',paymentId);
+  appleEl.setAttribute('payment-token',paymentToken);
+  appleEl.setAttribute('button-style','black');
+  appleEl.setAttribute('button-type','buy');
 
-  console.log('fbk-apple-pay ready:',{shop:SHOP_LOGIN,paymentId,paymentToken,amount,qty:pdpQty});
+  const googleEl=document.getElementById('fbk-google-pay-el');
+  googleEl.setAttribute('payment-id',paymentId);
+  googleEl.setAttribute('payment-token',paymentToken);
+  googleEl.setAttribute('button-style','black');
+  googleEl.setAttribute('button-type','buy');
+
+  console.log('fbk wallet buttons ready:',{shop:SHOP_LOGIN,paymentId,paymentToken,amount,qty:pdpQty});
 }
 
 window.addEventListener('fbk-elements-ready', e => {
